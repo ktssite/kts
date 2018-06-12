@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'GMT+8',
 
     /*
     |--------------------------------------------------------------------------
@@ -150,15 +150,16 @@ return [
         /*
          * Package Service Providers...
          */
+        Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        KTS\Providers\AppServiceProvider::class,
+        KTS\Providers\AuthServiceProvider::class,
+        // KTS\Providers\BroadcastServiceProvider::class,
+        KTS\Providers\EventServiceProvider::class,
+        KTS\Providers\RouteServiceProvider::class,
 
     ],
 
