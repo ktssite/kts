@@ -45,13 +45,16 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                          <a href="/home" class="site_title"><i class="fa fa-paw"></i> <span>{{ config('app.name', 'Laravel') }}</span></a>
+                            <a href="/home" class="site_title">
+                                <!-- <i class="fa fa-paw"></i> <span>{{ config('app.name', 'Laravel') }}</span> -->
+                                <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span>
+                            </a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu profile quick info -->
                         <div class="profile clearfix">
                           <div class="profile_pic">
-                            <img src="images/default.jpg" alt="..." class="img-circle profile_img">
+                            <img src="{{ asset('images/default.jpg') }}" alt="..." class="img-circle profile_img">
                           </div>
                           <div class="profile_info">
                             <span>Welcome,</span>
@@ -104,11 +107,11 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('images/default.jpg') }}" alt="">{{ Auth::user()->name }}
+                                    <img src="{{ asset('images/default.jpg') }}" alt="">{{ Auth::user()->name }}&nbsp; 
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="{{ route('users.edit',app('auth')->user()->id) }}"> Profile</a></li>
+                                    <li><a href="{{ route('users.show',app('auth')->user()->id) }}"> Profile</a></li>
                                     <!-- <li>
                                       <a href="javascript:;">
                                         <span class="badge bg-red pull-right">50%</span>
@@ -120,7 +123,7 @@
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                            <i class="fa fa-sign-out pull-right"></i>{{ __('Logout') }}
+                                            <i class="fas pull-right fa-sign-out-alt"></i>{{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf
@@ -136,9 +139,7 @@
                 <!-- top navigation -->
                 <!-- page content -->
                 <div class="right_col" role="main">
-                    <div class="row">
-                        @yield('content')
-                    </div>
+                    @yield('content')
                 </div>
                 <!-- page content -->
 

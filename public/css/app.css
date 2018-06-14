@@ -3832,3 +3832,7 @@ ul.notifications{
 .dataTables_wrapper>.row{
     overflow:auto!important
 }
+
+.logo{
+    width: 100%
+}

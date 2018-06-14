@@ -63,8 +63,8 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2018 All Rights Reserved. KTS Inc.</p>
+                  <img src="{{ asset('images/logotext.png') }}" alt="{{ config('app.name', 'Laravel') }}" style="width: 100%">
+                  <p>©2018 All Rights Reserved.</p>
                 </div>
               </div>
             </form>
