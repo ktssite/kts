@@ -46,8 +46,8 @@
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
                             <a href="/home" class="site_title">
-                                <!-- <i class="fa fa-paw"></i> <span>{{ config('app.name', 'Laravel') }}</span> -->
-                                <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span>
+                                <i class="fas fa-chart-line"></i> <span>{{ config('app.name', 'Laravel') }}</span>
+                                <!-- <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span> -->
                             </a>
                         </div>
                         <div class="clearfix"></div>

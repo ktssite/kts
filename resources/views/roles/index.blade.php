@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="">
-  <div class="page-title">
+ <!--  <div class="page-title">
       <div class="title_left">
         <h3>Role Management</h3>
       </div>
@@ -12,7 +12,7 @@
       <div class="title_right">
         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search"></div>
       </div>
-  </div>
+  </div> -->
     
   <div class="clearfix"></div>
 
@@ -21,7 +21,7 @@
       <div class="x_panel">
         <!-- x_title -->
         <div class="x_title">
-            <h2><i class="fa fa-users"></i></h2>
+            <h2><i class="fa fa-users"></i> Role Management</h2>
             <div class="pull-right">
                 @can('role-create')
                 <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>

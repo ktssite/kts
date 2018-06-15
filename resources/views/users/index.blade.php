@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="">
-  <div class="page-title">
+  <!-- <div class="page-title">
       <div class="title_left">
         <h3>Users Management</h3>
       </div>
@@ -12,7 +12,7 @@
         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search"></div>
       </div>
   </div>
-    
+     -->
   <div class="clearfix"></div>
 
   <div class="row">
@@ -20,7 +20,7 @@
       <div class="x_panel">
         <!-- x_title -->
         <div class="x_title">
-            <h2><i class="fa fa-list"></i></h2>
+            <h2><i class="fa fa-user"></i> Users Management</h2>
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
             </div>

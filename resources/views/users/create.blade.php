@@ -61,7 +61,13 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Role:</strong>
-                            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+                            {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','placeholder'=>'Select role')) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Trading day:</strong>
+                            {!! Form::select('trading_day', $weekdays,old('trading_day'), array('class' => 'form-control','placeholder'=>'Select day')) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
