@@ -1,3 +1,21 @@
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;    
+    padding: 10px;
+}
+
 .x_title h2,table.tile_info td p{
     white-space:nowrap;
     text-overflow:ellipsis
@@ -3835,4 +3853,40 @@ ul.notifications{
 
 .logo{
     width: 100%
+}
+
+.logotext {
+    font-size: 0.5em;
+}
+
+.p-change {
+    text-align: center;
+    vertical-align: middle !important;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.badge-primary {
+    background: rgba(52,152,219,.88);
+}
+
+.badge-success {
+    background: rgba(38,185,154,.88);
+}
+
+
+.badge-warning {
+    background: rgba(243,156,18,.88);
+}
+
+.table-center th, .table-center td {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+input.error {
+    border-color: red;
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Kraite Trading School') }}</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
@@ -32,6 +32,7 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 
 
@@ -46,8 +47,8 @@
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
                             <a href="/home" class="site_title">
-                                <!-- <i class="fa fa-paw"></i> <span>{{ config('app.name', 'Laravel') }}</span> -->
-                                <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span>
+                                <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="50"> 
+                                <span class="logotext">KRAITE TRADING SCHOOOL</span>
                             </a>
                         </div>
                         <div class="clearfix"></div>
@@ -67,7 +68,8 @@
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
                                 <ul class="nav side-menu">
-                                    <li><a href="{{ url('/home') }}"><i class="fas fa-home"></i> Dashboard </a></li>
+                                    <li><a href="{{ url('/home') }}"><i class="fas fa-tachometer-alt"></i> Dashboard </a></li>
+                                    <li><a href="{{ url('/performance') }}"><i class="fas fa-chart-line"></i> Peformance </a></li>
                                     @can('user-list')
                                         <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
                                     @endcan
@@ -146,7 +148,7 @@
                 <!-- footer content -->
                 <footer>
                   <div class="pull-right">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                    Kaite Trading School System
                   </div>
                   <div class="clearfix"></div>
                 </footer>
@@ -194,4 +196,5 @@
 <!-- bootstrap-daterangepicker -->
 <script src="{{ asset('js/moment.min.js') }}"></script>
 <script src="{{ asset('js/daterangepicker.js') }}"></script>
+@stack('scripts')
 </html>
