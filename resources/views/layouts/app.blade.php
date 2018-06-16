@@ -49,6 +49,8 @@
                             <a href="/home" class="site_title">
                                 <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="50"> 
                                 <span class="logotext">KRAITE TRADING SCHOOOL</span>
+                                <i class="fas fa-chart-line"></i> <span>{{ config('app.name', 'Laravel') }}</span>
+                                <!-- <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span> -->
                             </a>
                         </div>
                         <div class="clearfix"></div>
