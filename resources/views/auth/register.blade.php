@@ -84,7 +84,7 @@
                 <br />
 
                 <div>
-                  <img src="{{ asset('images/logotext.png') }}" alt="{{ config('app.name', 'Laravel') }}" style="width: 100%">
+                  <a href="/"><img src="{{ asset('images/logotext.png') }}" alt="{{ config('app.name', 'Laravel') }}" style="width: 100%"></a>
                   <p>©2018 All Rights Reserved.</p>
                 </div>
               </div>
