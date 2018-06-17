@@ -97,6 +97,7 @@ class PerformanceController extends Controller
 
     private function calculateProfit($change, $value)
     {
-        return pround(($change / $value) * 100);
+        if($value > 0) return pround(($change / $value) * 100);
+        return 0;
     }
 }
