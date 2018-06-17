@@ -3890,3 +3890,9 @@ ul.notifications{
 input.error {
     border-color: red;
 }
+
+.alert {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    margin-bottom: 10px;
+}

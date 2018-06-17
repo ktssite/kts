@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model
 {
+    const DECIMAL       = 100; //Two decimal places
+
     protected $fillable = ['user_id', 'date', 'profit'];
 	protected $casts    = ['date' => 'datetime:Y-m-d'];
-    const DECIMAL       = 100; //Two decimal places
+    protected $appends  = ['year', 'month', 'week', 'day'];
+
 
     public function setDateAttribute($value)
     {
@@ -23,12 +26,28 @@ class Performance extends Model
     public function setProfitAttribute($value)
     {
     	$this->attributes['profit'] = $value * self::DECIMAL;
-    }    
+    }       
 
-    public function d_profit($value)
-    {
-    	return $value / self::DECIMAL;
-    }        
+    /**
+     * Append customer columns based on date
+     */
+	public function getYearAttribute()
+	{
+	    return date('Y', strtotime($this->date));
+	}   
 
+	public function getMonthAttribute()
+	{
+	    return date('F', strtotime($this->date));
+	} 
 
+	public function getWeekAttribute()
+	{
+	    return date('W', strtotime($this->date));
+	}  	 
+
+	public function getDayAttribute()
+	{
+	    return date('l', strtotime($this->date));
+	}		
 }

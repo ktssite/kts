@@ -222,4 +222,5 @@ return [
         7 => 'Sunday',
     ],
 
+    'decimal_places' => 100,
 ];

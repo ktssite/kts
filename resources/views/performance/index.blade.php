@@ -3,6 +3,7 @@
 @push('styles')
 <link href="{{ asset('css/styled-input.css') }}" rel="stylesheet">
 <link href="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<style> .card { height: 100px; } </style>
 @endpush
 
 @section('content')
@@ -11,75 +12,72 @@
 		<h3>Performance</h3>
 	</div>
 </div>
-
+@include('components.alert')
 <div class="row">
-	<div class="col-md-12 x_panel">
-		<div class="row">
-			<div class="col-md-7">
-				<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#new_performance">
-					<i class="far fa-plus-square"></i> Add
-				</button>
-				<button class="btn btn-warning btn-sm" id="edit" disabled><i class="far fa-edit"></i> Edit</button>
-				<button class="btn btn-danger btn-sm" id="delete" disabled><i class="fas fa-trash-alt"></i> Delete</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="table-reponsive col-md-12">
-				<table class="table table-bordered table-striped table-center table-hover">
-					<thead>
-						<tr>
-							<th>
-								<input type="checkbox" name="select_all" id="select_all" value="x">
-								<label class="nInput" for="select_all"></label>
-							</th>
-							<th>Year</th>
-							<th>Month</th>
-							<th>Week</th>
-							<th>Day</th>
-							<th>Date</th>
-							<th>Porfit</th>
-							<th>Equity</th>
-							<th>% Change <span class="label label-primary">D</span></th>
-							<th>% Change <span class="label label-warning">W</span></th>
-							<th>% Change <span class="label label-success">M</span></th>
-						</tr>
-					</thead>
-					<tbody>
-						@php 
-							$w = $m = 1;
-							$performance = range(1,20);
-						@endphp
-						@forelse ($performance as $i)
-							<tr>
-								<td class="text-center">
-									<input type="checkbox" name="select_all" id="select_{{ $i }}" value="{{ $i }}" class="selectable">
-									<label class="nInput" for="select_{{ $i }}"></label>
-								</td>
-								<td>2018</td>
-								<td>June</td>
-								<td>06/18/2018 - 06/22/2018</td>
-								<td>Monday</td>
-								<td>06/18/2018</td>
-								<td>$ 30.00</td>
-								<td>$ 166.25</td>
-								<td><span class="label label-primary p-change">91.01 %</span></td>
-								@if($w == 1) 
-									<td rowspan="5" class="p-change"><span class="label label-warning">91.01 %</span></td> 
-								@endif
-								@if($m == 1) 
-									<td rowspan="30" class="p-change"><span class="label label-success">91.01 %</span></td> 
-								@endif
-							</tr>
-							@php 
-								$w = ($w == 5)?  1: $w+1;
-								$m = ($m == 30)? 1: $m+1;
-							@endphp
-						@empty
-						    <tr><td colspan="10">No performance record yet.</td></tr>
-						@endforelse
-					</tbody>
-				</table>					
-			</div>
+	<div class="col-md-12">
+		<div class="x_panel">
+			<form action="{{ route('performance.destroy', 'x') }}" method="POST">
+			    @method('DELETE') @csrf				
+				<div class="row">
+					<div class="col-md-4">
+						<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#new_performance">
+							<i class="far fa-plus-square"></i> Add
+						</button>
+						<button type="button" class="btn btn-warning btn-sm" id="edit" disabled><i class="far fa-edit"></i> Edit</button>
+						<button type="submit" class="btn btn-danger btn-sm" id="delete" disabled><i class="fas fa-trash-alt"></i> Delete</button>
+					</div>		
+				</div>
+				<div class="row">
+					<div class="table-reponsive col-md-12">
+						<table class="table table-bordered table-striped table-center table-hover">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="select_all" value="x">
+										<label class="nInput" for="select_all"></label>
+									</th>
+									<th>Year</th>
+									<th>Month</th>
+									<th>Week</th>
+									<th>Day</th>
+									<th>Date</th>
+									<th>Porfit</th>
+									<th>Equity</th>
+									<th>% Change <span class="label label-primary">D</span></th>
+									<th>% Change <span class="label label-warning">W</span></th>
+									<th>% Change <span class="label label-success">M</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								@forelse ($performances as $key => $performance)
+									<tr>
+										<td class="text-center">
+											<input type="checkbox" name="selected_items[]" id="select_{{ $key }}" value="{{ $performance->id }}" class="selectable">
+											<label class="nInput" for="select_{{ $key }}"></label>
+										</td>
+										<td>{{ $performance->year }}</td>
+										<td>{{ $performance->month }}</td>
+										<td>{{ $performance->week }}</td>
+										<td>{{ $performance->day }}</td>
+										<td>{{ $performance->date }}</td>
+										<td>$ {{ _d($performance->profit) }}</td>
+										<td>$ {{ $performance->equity }}</td>
+										<td><span class="label label-primary p-change">91.01 %</span></td>
+										@if($performance->w_col) 
+											<td rowspan="5" class="p-change"><span class="label label-warning">91.01 %</span></td> 
+										@endif
+										@if($performance->m_col) 
+											<td rowspan="30" class="p-change"><span class="label label-success">91.01 %</span></td>
+										 @endif
+									</tr>
+								@empty
+								    <tr><td colspan="10">No performance record yet.</td></tr>
+								@endforelse
+							</tbody>
+						</table>					
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -110,8 +108,6 @@
 			$('#edit').prop('disabled', selected_checkbox!=1)
 			$('#delete').prop('disabled', selected_checkbox==0)
 		})
-
-
 	})
 </script>
 @endpush

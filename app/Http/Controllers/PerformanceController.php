@@ -20,7 +20,21 @@ class PerformanceController extends Controller
 
     public function index()
     {
-        return view('performance.index');
+        $performances = self::me()->performances()->get();
+
+        $equity = self::me()->equity;
+        $w = $m = 1; 
+        foreach ($performances as $key => $value) {
+            $equity += $value->profit;
+            $performances[$key]->equity = _d($equity);
+            $performances[$key]->w_col  = ($w == 1) ? true: false;
+            $performances[$key]->m_col  = ($m == 1) ? true: false;
+
+            $w = ($w == 5)?  1: $w + 1; 
+            $m = ($m == 30)? 1: $m + 1;
+        }
+
+        return view('performance.index', compact('performances'));
     }
 
     /**
@@ -41,24 +55,16 @@ class PerformanceController extends Controller
      */
     public function store(Request $request)
     {
+        $alert = ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.']; 
+
         if($request->date && $request->date) {
             $performance = self::me()->performances()->create(['date' => $request->date, 'profit' => $request->profit]);
+            if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
         }
-
-        $performance = self::me()->performances->first();
-
+        
+        return redirect()->back()->with(['alert' => $alert]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -89,8 +95,16 @@ class PerformanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $alert = ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.']; 
+
+        if($request->selected_items) {
+            $performance = self::me()->performances()->whereIn('id', (array)$request->selected_items)->delete();
+            if($performance) $alert = ['type' => 'success', 'message' => 'Selected item was successfully deleted.'];
+        }
+        
+        return redirect()->back()->with(['alert' => $alert]);
+
     }
 }
