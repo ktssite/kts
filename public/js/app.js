@@ -5,7 +5,7 @@ function init_sidebar() {
             b = $BODY.hasClass("footer_fixed") ? -10 : $FOOTER.height(),
             c = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
             d = a < c ? c : a;
-        d -= $NAV_MENU.height() + b, $RIGHT_COL.css("min-height", d)
+        d -= $NAV_MENU.height() + b, $RIGHT_COL.css("min-height", '94.6vh')
     };
     $SIDEBAR_MENU.find("a").on("click", function(b) {
         var c = $(this).parent();
@@ -43,7 +43,6 @@ function gd(a, b, c) {
 
 function init_flot_chart() {
     if ("undefined" != typeof $.plot) {
-        console.log("init_flot_chart");
         for (var a = [
                 [gd(2012, 1, 1), 17],
                 [gd(2012, 1, 2), 74],
@@ -207,7 +206,7 @@ function init_flot_chart() {
                     }
                 }
             };
-        $("#chart_plot_01").length && (console.log("Plot1"), $.plot($("#chart_plot_01"), [a, b], g)), $("#chart_plot_02").length && (console.log("Plot2"), $.plot($("#chart_plot_02"), [{
+        $("#chart_plot_01").length && ($.plot($("#chart_plot_01"), [a, b], g)), $("#chart_plot_02").length && ($.plot($("#chart_plot_02"), [{
             label: "Email Sent",
             data: d,
             lines: {
@@ -216,7 +215,7 @@ function init_flot_chart() {
             points: {
                 fillColor: "#fff"
             }
-        }], h)), $("#chart_plot_03").length && (console.log("Plot3"), $.plot($("#chart_plot_03"), [{
+        }], h)), $("#chart_plot_03").length && ($.plot($("#chart_plot_03"), [{
             label: "Registrations",
             data: e,
             lines: {
@@ -230,7 +229,7 @@ function init_flot_chart() {
 }
 
 function init_starrr() {
-    "undefined" != typeof starrr && (console.log("init_starrr"), $(".stars").starrr(), $(".stars-existing").starrr({
+    "undefined" != typeof starrr && ($(".stars").starrr(), $(".stars-existing").starrr({
         rating: 4
     }), $(".stars").on("starrr:change", function(a, b) {
         $(".stars-count").html(b)
@@ -240,7 +239,7 @@ function init_starrr() {
 }
 
 function init_JQVmap() {
-    "undefined" != typeof jQuery.fn.vectorMap && (console.log("init_JQVmap"), $("#world-map-gdp").length && $("#world-map-gdp").vectorMap({
+    "undefined" != typeof jQuery.fn.vectorMap && ($("#world-map-gdp").length && $("#world-map-gdp").vectorMap({
         map: "world_en",
         backgroundColor: null,
         color: "#ffffff",
@@ -267,7 +266,6 @@ function init_JQVmap() {
 
 function init_skycons() {
     if ("undefined" != typeof Skycons) {
-        console.log("init_skycons");
         var c, a = new Skycons({
                 color: "#73879C"
             }),
@@ -278,7 +276,7 @@ function init_skycons() {
 }
 
 function init_chart_doughnut() {
-    if ("undefined" != typeof Chart && (console.log("init_chart_doughnut"), $(".canvasDoughnut").length)) {
+    if ("undefined" != typeof Chart && ($(".canvasDoughnut").length)) {
         var a = {
             type: "doughnut",
             tooltipFillColor: "rgba(51, 51, 51, 0.55)",
@@ -304,7 +302,6 @@ function init_chart_doughnut() {
 
 function init_gauge() {
     if ("undefined" != typeof Gauge) {
-        console.log("init_gauge [" + $(".gauge-chart").length + "]"), console.log("init_gauge");
         var a = {
             lines: 12,
             angle: 0,
@@ -329,7 +326,7 @@ function init_gauge() {
 }
 
 function init_sparklines() {
-    "undefined" != typeof jQuery.fn.sparkline && (console.log("init_sparklines"), $(".sparkline_one").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
+    "undefined" != typeof jQuery.fn.sparkline && ($(".sparkline_one").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
         type: "bar",
         height: "125",
         barWidth: 13,
@@ -411,7 +408,6 @@ function init_sparklines() {
 
 function init_autocomplete() {
     if ("undefined" != typeof autocomplete) {
-        console.log("init_autocomplete");
         var a = {
                 AD: "Andorra",
                 A2: "Andorra Test",
@@ -697,7 +693,7 @@ function init_autosize() {
 
 function init_parsley() {
     if ("undefined" != typeof parsley) {
-        console.log("init_parsley"), $("parsley:field:validate", function() {
+        $("parsley:field:validate", function() {
             a()
         }), $("#demo-form .btn").on("click", function() {
             $("#demo-form").parsley().validate(), a()
@@ -738,7 +734,7 @@ function init_TagsInput() {
 }
 
 function init_select2() {
-    "undefined" != typeof select2 && (console.log("init_toolbox"), $(".select2_single").select2({
+    "undefined" != typeof select2 && ($(".select2_single").select2({
         placeholder: "Select a state",
         allowClear: !0
     }), $(".select2_group").select2({}), $(".select2_multiple").select2({
@@ -753,7 +749,7 @@ function init_wysiwyg() {
         var c = "";
         "unsupported-file-type" === a ? c = "Unsupported format " + b : console.log("error uploading file", a, b), $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button><strong>File upload error</strong> ' + c + " </div>").prependTo("#alerts")
     }
-    "undefined" != typeof $.fn.wysiwyg && (console.log("init_wysiwyg"), $(".editor-wrapper").each(function() {
+    "undefined" != typeof $.fn.wysiwyg && ($(".editor-wrapper").each(function() {
         var a = $(this).attr("id");
         $(this).wysiwyg({
             toolbarSelector: '[data-target="#' + a + '"]',
@@ -764,7 +760,6 @@ function init_wysiwyg() {
 
 function init_cropper() {
     if ("undefined" != typeof $.fn.cropper) {
-        console.log("init_cropper");
         var a = $("#image"),
             b = $("#download"),
             c = $("#dataX"),
@@ -972,7 +967,6 @@ function init_IonRangeSlider() {
 
 function init_daterangepicker() {
     if ("undefined" != typeof $.fn.daterangepicker) {
-        console.log("init_daterangepicker");
         var a = function(a, b, c) {
                 console.log(a.toISOString(), b.toISOString(), c), $("#reportrange span").html(a.format("MMMM D, YYYY") + " - " + b.format("MMMM D, YYYY"))
             },
@@ -1034,7 +1028,6 @@ function init_daterangepicker() {
 
 function init_daterangepicker_right() {
     if ("undefined" != typeof $.fn.daterangepicker) {
-        console.log("init_daterangepicker_right");
         var a = function(a, b, c) {
                 console.log(a.toISOString(), b.toISOString(), c), $("#reportrange_right span").html(a.format("MMMM D, YYYY") + " - " + b.format("MMMM D, YYYY"))
             },
@@ -1095,7 +1088,7 @@ function init_daterangepicker_right() {
 }
 
 function init_daterangepicker_single_call() {
-    "undefined" != typeof $.fn.daterangepicker && (console.log("init_daterangepicker_single_call"), $("#single_cal1").daterangepicker({
+    "undefined" != typeof $.fn.daterangepicker && ($("#single_cal1").daterangepicker({
         singleDatePicker: !0,
         singleClasses: "picker_1"
     }, function(a, b, c) {
@@ -1119,7 +1112,7 @@ function init_daterangepicker_single_call() {
 }
 
 function init_daterangepicker_reservation() {
-    "undefined" != typeof $.fn.daterangepicker && (console.log("init_daterangepicker_reservation"), $("#reservation").daterangepicker(null, function(a, b, c) {
+    "undefined" != typeof $.fn.daterangepicker && ($("#reservation").daterangepicker(null, function(a, b, c) {
         console.log(a.toISOString(), b.toISOString(), c)
     }), $("#reservation-time").daterangepicker({
         timePicker: !0,
@@ -1167,7 +1160,7 @@ function init_PNotify() {
 }
 
 function init_CustomNotification() {
-    if (console.log("run_customtabs"), "undefined" != typeof CustomTabs) {
+    if ("undefined" != typeof CustomTabs) {
         console.log("init_CustomTabs");
         var a = 10;
         TabbedNotification = function(b) {
@@ -1229,8 +1222,8 @@ function init_EasyPieChart() {
 }
 
 function init_charts() {
-    if (console.log("run_charts  typeof [" + typeof Chart + "]"), "undefined" != typeof Chart) {
-        if (console.log("init_charts"), Chart.defaults.global.legend = {
+    if ("undefined" != typeof Chart) {
+        if (Chart.defaults.global.legend = {
                 enabled: !1
             }, $("#canvas_line").length) {
             new Chart(document.getElementById("canvas_line"), {
@@ -1523,7 +1516,7 @@ function init_charts() {
 }
 
 function init_compose() {
-    "undefined" != typeof $.fn.slideToggle && (console.log("init_compose"), $("#compose, .compose-close").click(function() {
+    "undefined" != typeof $.fn.slideToggle && ($("#compose, .compose-close").click(function() {
         $(".compose").slideToggle()
     }))
 }
@@ -1592,7 +1585,7 @@ function init_calendar() {
 }
 
 function init_DataTables() {
-    if (console.log("run_datatables"), "undefined" != typeof $.fn.DataTable) {
+    if ("undefined" != typeof $.fn.DataTable) {
         console.log("init_DataTables");
         var a = function() {
             $("#datatable-buttons").length && $("#datatable-buttons").DataTable({

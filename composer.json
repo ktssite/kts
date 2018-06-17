@@ -27,7 +27,8 @@
         ],
         "psr-4": {
             "KTS\\": "app/"
-        }
+        },
+        "files" : ["app/Http/Helpers/Functions.php"]        
     },
     "autoload-dev": {
         "psr-4": {

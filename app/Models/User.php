@@ -20,7 +20,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates    = ['deleted_at'];
+    protected $appends  = ['equity'];
 
     /**
      * The attributes that are mass assignable.
@@ -39,4 +40,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function performances()
+    {
+        return $this->hasMany('KTS\Models\Performance');
+    }    
+
+    public function funds()
+    {
+        return $this->hasMany('KTS\Models\Fund');
+    }  
+
+    public function getEquityAttribute()
+    {
+        return '13625';
+    }      
 }
