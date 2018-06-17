@@ -6,56 +6,51 @@ use Illuminate\Http\Request;
 
 class PerformanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function me()
-    {
-        return auth()->user();
-    }
-
-
     public function index()
     {
-        $performances = self::me()->performances()->get();
+        $performances = self::me()->performances()->orderBy('date')->get();
 
-        $equity = self::me()->equity;
+        //Initializations
+        $equity = $prev_equity_daily 
+                = self::me()->equity;
         $w = $m = 1; 
+
         foreach ($performances as $key => $value) {
+            if($w == 1) {
+                $performances[$key]->w_col    = true;
+                $prev_equity_weekly           = $equity;
+                $key_w                        = $key;
+            } else $performances[$key]->w_col = false;
+
+            if($m == 1) {
+                $performances[$key]->m_col    = true;
+                $prev_equity_monthly          = $equity;
+                $key_m                        = $key;
+            } else $performances[$key]->m_col = false;
+
+            //Calculate daily equity.
             $equity += $value->profit;
-            $performances[$key]->equity = _d($equity);
-            $performances[$key]->w_col  = ($w == 1) ? true: false;
-            $performances[$key]->m_col  = ($m == 1) ? true: false;
+            
+            //Calculate weekly & monthly profits
+            $weekly_profit  = $equity - $prev_equity_weekly;
+            $monthly_profit = $equity - $prev_equity_monthly;
+
+            $performances[$key]->equity           = _d($equity);
+            $performances[$key]->daily_change     = self::calculateProfit($value->profit,  $prev_equity_daily);
+            $performances[$key_w]->weekly_change  = self::calculateProfit($weekly_profit,  $prev_equity_weekly);
+            $performances[$key_m]->monthly_change = self::calculateProfit($monthly_profit, $prev_equity_monthly);
 
             $w = ($w == 5)?  1: $w + 1; 
             $m = ($m == 30)? 1: $m + 1;
+            $prev_equity_daily = $equity;
         }
 
-        return view('performance.index', compact('performances'));
+        return view('performances.index', compact('performances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('performance.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $alert = ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.']; 
+        $alert = self::errorMessage(); 
 
         if($request->date && $request->date) {
             $performance = self::me()->performances()->create(['date' => $request->date, 'profit' => $request->profit]);
@@ -65,39 +60,21 @@ class PerformanceController extends Controller
         return redirect()->back()->with(['alert' => $alert]);
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $alert = self::errorMessage(); 
+
+        if($request->pid && $request->e_date && $request->e_date) {
+            $performance = self::me()->performances()->find($request->pid)->update(['date' => $request->e_date, 'profit' => $request->e_profit]);
+            if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully updated.'];
+        }
+        
+        return redirect()->back()->with(['alert' => $alert]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id)
     {
-        $alert = ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.']; 
+        $alert = self::errorMessage(); 
 
         if($request->selected_items) {
             $performance = self::me()->performances()->whereIn('id', (array)$request->selected_items)->delete();
@@ -106,5 +83,20 @@ class PerformanceController extends Controller
         
         return redirect()->back()->with(['alert' => $alert]);
 
+    }
+
+    public function me()
+    {
+        return auth()->user();
+    }
+
+    private function errorMessage()
+    {
+        return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
+    }    
+
+    private function calculateProfit($change, $value)
+    {
+        return pround(($change / $value) * 100);
     }
 }

@@ -72,6 +72,7 @@
                                 <ul class="nav side-menu">
                                     <li><a href="{{ url('/home') }}"><i class="fas fa-tachometer-alt"></i> Dashboard </a></li>
                                     <li><a href="{{ url('/performance') }}"><i class="fas fa-chart-line"></i> Peformance </a></li>
+                                    <li><a href="{{ url('/fund') }}"><i class="fas fa-hand-holding-usd"></i> Funds </a></li>
                                     @can('user-list')
                                         <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
                                     @endcan

@@ -16,3 +16,7 @@ function _d($value) {
  	$result         = $value / $decimal_places;
     return number_format((float)$result, $decimal, '.', '');
 }
+
+function pround($value) {
+    return number_format((float)$value, 2, '.', '');
+}

@@ -46,8 +46,13 @@ class User extends Authenticatable
         return $this->hasMany('KTS\Models\Performance');
     }    
 
+    public function funds()
+    {
+        return $this->hasMany('KTS\Models\Fund');
+    }  
+
     public function getEquityAttribute()
     {
-        return '31800';
+        return '13625';
     }      
 }

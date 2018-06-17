@@ -3887,8 +3887,9 @@ ul.notifications{
     color: red;
 }
 
-input.error {
-    border-color: red;
+input.error, select.error {
+    background: #FAEDEC;
+    border: 1px solid #E85445;
 }
 
 .alert {

@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model
 {
-    const DECIMAL       = 100; //Two decimal places
-
     protected $fillable = ['user_id', 'date', 'profit'];
-	protected $casts    = ['date' => 'datetime:Y-m-d'];
     protected $appends  = ['year', 'month', 'week', 'day'];
 
 
@@ -25,7 +22,7 @@ class Performance extends Model
 
     public function setProfitAttribute($value)
     {
-    	$this->attributes['profit'] = $value * self::DECIMAL;
+    	$this->attributes['profit'] = $value * config('app.decimal_places');
     }       
 
     /**
