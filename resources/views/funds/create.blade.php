@@ -3,9 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="new_fund_label">
-          <i class="far fa-plus-square"></i> New Fund
-        </h4>
+        <h4 class="modal-title" id="new_fund_label">New Fund</h4>
       </div>
       <form class="submit_fund" action="{{ route('fund.store') }}" method="POST">
         @csrf
@@ -15,7 +13,7 @@
               <div class="card">
                 <div class="form-group">
                   <label>Type</label>
-                  <select class="form-control" name="type" required>
+                  <select class="form-control" name="type" required readonly>
                   	<option value="">Select</option>
                   	<option value="Deposit">Deposit</option>
                   	<option value="Withdraw">Withdraw</option>

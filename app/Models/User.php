@@ -53,6 +53,8 @@ class User extends Authenticatable
 
     public function getEquityAttribute()
     {
-        return '13625';
+        $deposit  = self::funds()->where('type', 'Deposit')->sum('amount');
+        $withdraw = self::funds()->where('type', 'Withdraw')->sum('amount');
+        return $deposit - $withdraw;
     }      
 }
