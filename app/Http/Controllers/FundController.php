@@ -3,9 +3,12 @@
 namespace KTS\Http\Controllers;
 
 use Illuminate\Http\Request;
+use KTS\Traits\UserTrait;
 
 class FundController extends Controller
 {
+    use UserTrait;
+
     public function index(Request $request)
     {
         $filter = $request->d;
@@ -47,13 +50,13 @@ class FundController extends Controller
         return redirect()->back()->with(['alert' => $alert]);        
     }
 
-    public function me()
-    {
-        return auth()->user();
-    }    
+    // public function me()
+    // {
+    //     return auth()->user();
+    // }    
 
-    private function errorMessage()
-    {
-        return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
-    }        
+    // private function errorMessage()
+    // {
+    //     return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
+    // }        
 }

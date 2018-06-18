@@ -47,7 +47,7 @@ span.p-change {width: 50px; display: inline-block;}
 									<th>Week</th>
 									<th>Day</th>
 									<th>Date</th>
-									<th>Porfit</th>
+									<th>Profit</th>
 									<th>Equity</th>
 									<th>% Change (D)</th>
 									<th>% Change (W)</th>

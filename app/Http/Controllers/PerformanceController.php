@@ -3,16 +3,19 @@
 namespace KTS\Http\Controllers;
 
 use Illuminate\Http\Request;
+use KTS\Traits\UserTrait;
 
 class PerformanceController extends Controller
 {
+    use UserTrait;
+
     public function index()
     {
         $performances = self::me()->performances()->orderBy('date')->get();
 
         //Initializations
         $equity = $prev_equity_daily 
-                = self::me()->equity;
+                = self::me()->total_funds;
         $w = $m = 1; 
 
         foreach ($performances as $key => $value) {
@@ -83,17 +86,7 @@ class PerformanceController extends Controller
         
         return redirect()->back()->with(['alert' => $alert]);
 
-    }
-
-    public function me()
-    {
-        return auth()->user();
-    }
-
-    private function errorMessage()
-    {
-        return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
-    }    
+    } 
 
     private function calculateProfit($change, $value)
     {
