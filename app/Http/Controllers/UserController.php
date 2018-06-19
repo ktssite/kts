@@ -32,8 +32,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $data = User::orderBy('id','ASC')->paginate(50);
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 50);
+        // return view('users.index',compact('data'))
+        //     ->with('i', ($request->input('page', 1) - 1) * 50);
+        return view('users.index',compact('data'));
     }
 
 
@@ -165,5 +166,38 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
+    }
+
+    /**
+     * Ajax requests with different functions
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function ajaxAction(Request $request)
+    {
+        $id = $request->get('id'); 
+        $action = $request->get('a');
+        $user = User::find($id);
+        $success = true; 
+        if (!$user) {
+            $success = false; 
+            $message = 'User not found.'; 
+        }  
+
+        switch ($action) {
+            case 'statupdate':
+                $is_checked = $request->get('checked'); 
+                $user->active = $is_checked;
+                $user->save(); 
+                $message = 'User status was successfully updated.'; 
+                break;
+            
+            default:
+                $message = 'No action needed.';
+                break;
+        }
+
+        return response()->json([ 'result'=>$success, 'message'=>$message ]);
     }
 }
