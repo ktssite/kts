@@ -48,7 +48,7 @@
                         <div class="navbar nav_title" style="border: 0;">
                             <a href="/home" class="site_title">
                                 <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="50"> 
-                                <span class="logotext">KRAITE TRADING SCHOOOL</span>
+                                <span class="logotext">KRAITE TRADING SCHOOL</span>
                                 <i class="fas fa-chart-line"></i> <span>{{ config('app.name', 'Laravel') }}</span>
                                 <!-- <span><img src="{{ asset('images/text.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="logo"></span> -->
                             </a>
@@ -112,7 +112,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('images/default.jpg') }}" alt="">{{ Auth::user()->name }}&nbsp; 
+                                    <img src="{{ asset('images/default.jpg') }}" alt="">{{ Auth::user()->username }}&nbsp; 
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">

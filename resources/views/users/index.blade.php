@@ -1,5 +1,8 @@
 @extends('layouts.app')
-
+@push('styles')
+<link href="{{ asset('vendors/Datatable/datatables.min.css') }}" rel="stylesheet">
+<link href="{{ asset('vendors/pnotify/pnotify.custom.min.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="">
@@ -22,7 +25,7 @@
         <div class="x_title">
             <h2><i class="fa fa-user"></i> Users Management</h2>
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+                <a class="btn btn-success btn-sm" href="{{ route('users.create') }}"> Create New User</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -36,35 +39,48 @@
             </div>
             @endif
 
-            <table class="table table-bordered">
-             <tr>
-               <th>No</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Roles</th>
-               <th width="280px">Action</th>
-             </tr>
-             @foreach ($data as $key => $user)
-              <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                  @if(!empty($user->getRoleNames()))
-                    @foreach($user->getRoleNames() as $v)
-                       <label class="badge badge-success">{{ $v }}</label>
-                    @endforeach
-                  @endif
-                </td>
-                <td>
-                   <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
-                   <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                    {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-                </td>
-              </tr>
-             @endforeach
+            <table class="table table-hover table-bordered display" id="user_tbl">
+              <thead>
+                <tr>
+                 <th>No</th>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th>Roles</th>
+                 <th>Status</th>
+                 <th width="280px">Action</th>
+               </tr>
+              </thead>
+              <tbody>
+                @foreach ($data as $key => $user)
+                <tr>
+                  <td>{{ $user->id }}</td>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->email }}</td>
+                  <td>
+                    @if(!empty($user->getRoleNames()))
+                      @foreach($user->getRoleNames() as $v)
+                         <label class="badge badge-success">{{ $v }}</label>
+                      @endforeach
+                    @endif
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" class="flat status_chk" @if($user->active) checked @endif data-id="{{$user->id}}">
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                     <a class="btn btn-info btn-xs" href="{{ route('users.show',$user->id) }}">Show</a>
+                     <a class="btn btn-primary btn-xs" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                      {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                          {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
+                      {!! Form::close() !!}
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+              
             </table>
         </div>
         <!-- x_content -->
@@ -74,7 +90,10 @@
 </div>
 
 
-{!! $data->render() !!}
-
-
 @endsection
+
+@push('scripts')
+<script type="text/javascript" src="{{ asset('vendors/Datatable/datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendors/pnotify/pnotify.custom.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/app/user/index.js') }}"></script>
+@endpush

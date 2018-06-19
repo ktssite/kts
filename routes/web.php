@@ -18,9 +18,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {
+
+	// Users
+	Route::resource('users','UserController');
+	Route::group(['before' => 'permission:user-change-status'], function()
+	{
+		Route::post('users/ajax', ['as' => 'users.ajax', 'uses' => 'UserController@ajaxAction']);
+	});
+
+
+    
+    
     Route::resource('roles','RoleController');
-    Route::resource('users','UserController');
-	
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::resource('/performance', 'PerformanceController');
