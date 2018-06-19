@@ -3,35 +3,24 @@
 namespace KTS\Http\Controllers;
 
 use Illuminate\Http\Request;
+use KTS\Traits\UserTrait;
 
 class FundController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    use UserTrait;
+
+    public function index(Request $request)
     {
-        $funds = self::me()->funds()->get();
+        $filter = $request->d;
+        $funds = self::me()->funds();
+
+        if($filter == 'Withdraw') $funds = $funds->where('type', 'Withdraw');
+        if($filter == 'Deposit')  $funds = $funds->where('type', 'Deposit');
+
+        $funds = $funds->get();
         return view('funds.index', compact('funds'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $alert = self::errorMessage(); 
@@ -44,54 +33,30 @@ class FundController extends Controller
         return redirect()->back()->with(['alert' => $alert]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $alert = self::errorMessage(); 
 
         if($id) {
             $fund = self::me()->funds()->find($id)->delete();
-            if($fund) $alert = ['type' => 'success', 'message' => 'Selected item was successfully deleted.'];
+            if($fund) $alert = ['type' => 'success', 'message' => 'Fund was successfully deleted.'];
         }
         
         return redirect()->back()->with(['alert' => $alert]);        
     }
 
-    public function me()
-    {
-        return auth()->user();
-    }    
+    // public function me()
+    // {
+    //     return auth()->user();
+    // }    
 
-    private function errorMessage()
-    {
-        return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
-    }        
+    // private function errorMessage()
+    // {
+    //     return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
+    // }        
 }

@@ -14,7 +14,7 @@ function _d($value) {
 	$decimal_places = config('app.decimal_places');
 	$decimal        = substr_count($decimal_places, '0', 1);
  	$result         = $value / $decimal_places;
-    return number_format((float)$result, $decimal, '.', '');
+    return number_format((float)$result, $decimal, '.', ',');
 }
 
 function pround($value) {

@@ -34,4 +34,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::resource('/performance', 'PerformanceController');
 	Route::resource('/fund', 'FundController');
+
+	Route::get('/dashboard', 'DashboardController@index');
 });

@@ -5,7 +5,7 @@ function init_sidebar() {
             b = $BODY.hasClass("footer_fixed") ? -10 : $FOOTER.height(),
             c = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
             d = a < c ? c : a;
-        d -= $NAV_MENU.height() + b, $RIGHT_COL.css("min-height", '94.6vh')
+        d -= $NAV_MENU.height() + b, $RIGHT_COL.css("min-height", d)
     };
     $SIDEBAR_MENU.find("a").on("click", function(b) {
         var c = $(this).parent();

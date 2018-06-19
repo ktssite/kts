@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $dates    = ['deleted_at'];
-    protected $appends  = ['equity'];
+    protected $appends  = ['available_equity', 'total_funds', 'total_profits', 'total_deposits', 'total_withdrawals'];
 
     /**
      * The attributes that are mass assignable.
@@ -43,16 +43,36 @@ class User extends Authenticatable
 
     public function performances()
     {
-        return $this->hasMany('KTS\Models\Performance');
+        return self::hasMany('KTS\Models\Performance');
     }    
 
     public function funds()
     {
-        return $this->hasMany('KTS\Models\Fund');
+        return self::hasMany('KTS\Models\Fund');
     }  
 
-    public function getEquityAttribute()
+    public function getTotalDepositsAttribute()
     {
-        return '13625';
+        return self::funds()->where('type', 'Deposit')->sum('amount');
+    }    
+
+    public function getTotalWithdrawalsAttribute()
+    {
+        return self::funds()->where('type', 'Withdraw')->sum('amount');
+    }    
+
+    public function getTotalProfitsAttribute()
+    {
+        return self::hasMany('KTS\Models\Performance')->sum('profit');
+    } 
+
+    public function getAvailableEquityAttribute()
+    {
+        return $this->total_funds + $this->total_profits;
+    }      
+
+    public function getTotalFundsAttribute()
+    {
+        return $this->total_deposits - $this->total_withdrawals;
     }      
 }
