@@ -74,5 +74,6 @@ class User extends Authenticatable
     public function getTotalFundsAttribute()
     {
         return $this->total_deposits - $this->total_withdrawals;
-    }      
+    } 
+      
 }

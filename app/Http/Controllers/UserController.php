@@ -8,21 +8,21 @@ use KTS\Models\User;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
+use Auth; 
 
 class UserController extends Controller
 {
-	/**
-     * Display a listing of the resource.
+    /**
+     * check if the logged user has permission
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+    private function checkAccess($permission) 
     {
-         $this->middleware('permission:user-list', ['except' => ['edit','update']]);
-         $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
-    }
+        $loggedUser = Auth::user(); 
+        if (!$loggedUser->can($permission)) 
+            abort(403, 'Unauthorized action.');
+    }  
 
     /**
      * Display a listing of the resource.
@@ -30,10 +30,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $data = User::orderBy('id','ASC')->paginate(50);
-        // return view('users.index',compact('data'))
-        //     ->with('i', ($request->input('page', 1) - 1) * 50);
+    {        
+        $this->checkAccess('user-list'); 
+
+        $data = User::orderBy('id','ASC')->get();
         return view('users.index',compact('data'));
     }
 
@@ -45,6 +45,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->checkAccess('user-create'); 
+
         $weekdays = config('app.weekdays');
         $roles = Role::pluck('name','name')->all();
         return view('users.create',compact('roles','weekdays'));
@@ -59,6 +61,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->checkAccess('user-create'); 
+
         $this->validate($request, [
             'name' => 'required',
             'username' => 'required',
@@ -88,6 +92,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $this->checkAccess('user-edit'); 
+        $loggedUser = Auth::user(); 
+        if (!$loggedUser->hasRole('Admin') && $loggedUser->id != $id) {
+            abort(404, '404 Page not found.');
+        }
+
         $user = User::find($id);
         return view('users.show',compact('user'));
     }
@@ -101,6 +111,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $this->checkAccess('user-edit'); 
+        $loggedUser = Auth::user(); 
+        if (!$loggedUser->hasRole('Admin') && $loggedUser->id != $id) {
+            abort(404, '404 Page not found.');
+        }
+
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
@@ -119,14 +135,19 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $this->checkAccess('user-edit'); 
+
+        $fields = [
             'name' => 'required',
             'username' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
+            'password' => 'same:confirm-password'
+        ];
 
+        $loggedUser = Auth::user(); 
+        if ($loggedUser->hasRole('Admin')) $fields['roles'] = 'required';
+
+        $this->validate($request, $fields);
 
         $input = $request->all();
 	        if(!empty($input['password'])){ 
@@ -138,17 +159,18 @@ class UserController extends Controller
 
         $user = User::find($id);
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
 
+        if ($loggedUser->hasRole('Admin')) {
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+            $user->assignRole($request->input('roles'));
 
-        $user->assignRole($request->input('roles'));
-
-        if (!$user->hasPermissionTo('user-list')) {
-        	return redirect()->route('users.edit', $user->id)
-                        ->with('success','User updated successfully');
+            return redirect()->route('users.index')
+                        ->with('success','User updated successfully.');
         }
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        
+        return redirect()->route('users.show', $user->id)
+                        ->with('success','User updated successfully.');
+        
     }
 
 
@@ -160,6 +182,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->checkAccess('user-delete'); 
+
         $user = User::find($id);
         $user->active = 0; 
         $user->save(); 
@@ -176,6 +200,8 @@ class UserController extends Controller
      */
     public function ajaxAction(Request $request)
     {
+        $this->checkAccess('user-change-status');
+        
         $id = $request->get('id'); 
         $action = $request->get('a');
         $user = User::find($id);
