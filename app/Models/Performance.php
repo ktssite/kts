@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Performance extends Model
 {
     protected $fillable = ['user_id', 'date', 'profit'];
-    protected $appends  = ['year', 'month', 'week', 'day'];
+    protected $appends  = ['year', 'month', 'week', 'day', 'la'];
+
+    public function user()
+    {
+        return self::belongsTo('KTS\Models\User');
+    }  
 
 
     public function setDateAttribute($value)

@@ -55,9 +55,15 @@ class PerformanceController extends Controller
     {
         $alert = self::errorMessage(); 
 
-        if($request->date && $request->date) {
-            $performance = self::me()->performances()->create(['date' => $request->date, 'profit' => $request->profit]);
-            if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
+        $input = $request->all();
+        if($input['profit'] && $input['date']) {
+            //check for duplicate date. Do not allow if it's already added.
+            if(self::me()->performances()->where('date', dbDate($input['date']))->exists()) {
+                $alert = ['type' => 'warning', 'message' => 'An entry with the same date already exist. You may just update it.'];
+            } else {
+                $performance = self::me()->performances()->create(['date' => $input['date'], 'profit' => $input['profit']]);
+                if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
+            }
         }
         
         return redirect()->back()->with(['alert' => $alert]);

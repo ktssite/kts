@@ -20,3 +20,7 @@ function _d($value) {
 function pround($value) {
     return number_format((float)$value, 2, '.', '');
 }
+
+function dbDate($date) {
+	return date_create($date)->format('Y-m-d');
+}
