@@ -50,15 +50,14 @@
 						</div>						
 					</div>	
 				</div>	
-
 				<div class="table-responsive">
-					<table class="table table-striped jambo_table bulk_action">
+					<table class="table table-bordered table-striped table-hover">
 						<thead>
 							<tr class="headings">
-								<th>Type</th>
-								<th>Date</th>
-								<th>Amount</th>
-								<th class="text-right pr-15">Action</th>			
+								<th width="20%">Type</th>
+								<th width="30%">Date</th>
+								<th width="30%">Amount</th>
+								<th width="20%">Action</th>			
 							</tr>
 						</thead>
 
@@ -70,7 +69,7 @@
 									</td>
 									<td>{{ $fund->created_at }}</td>
 									<td>$ {{ _d($fund->amount) }}</td>
-									<td class="text-right">
+									<td>
 										<form class="delete_fund" action="fund/{{ $fund->id }}" method="POST" data-type="delete">
 											@method('DELETE') @csrf	
 											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-trash-alt"></i> Delete</button>

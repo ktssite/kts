@@ -35,7 +35,7 @@ span.p-change {width: 50px; display: inline-block;}
 						</div>		
 					</div>
 					<div class="table-responsive">				
-						<table class="table table-bordered table-striped table-center table-hover jambo_table">
+						<table class="table table-bordered table-striped table-center table-hover">
 							<thead>
 								<tr>
 									<th>

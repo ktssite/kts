@@ -5,13 +5,13 @@
 	</div>
 	<div class="x_content">
 		<ul class="list-unstyled top_profiles scroll-view">
-			@foreach(range(1,20) as $i)
+			@foreach($weekly_rankings as $weekly)
 			<li class="media event">
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
-					<a class="title" href="#">Ms. Mary Jane</a>
-					<p><strong>$2300. </strong> Agent Avarage Sales </p>
-					<p> <small class="label label-success">Top 1</small></p>
+					<a class="title" href="#">{{ $weekly['name'] }}</a>
+					<p><strong>$ {{ _d($weekly['equity']) }}</strong></p>
+					<p> <small>Week {{ $weekly['date'] }}</small></p>
 				</div>
 			</li>
 			@endforeach

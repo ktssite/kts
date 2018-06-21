@@ -10,7 +10,7 @@
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
 					<a class="title" href="#">{{ $daily['name'] }}</a>
-					<p><strong>{{ $daily['available_equity'] }}</strong></p>
+					<p><strong>$ {{ _d($daily['equity']) }}</strong></p>
 					<p> <small>{{ $daily['date'] }}</small></p>
 				</div>
 			</li>
