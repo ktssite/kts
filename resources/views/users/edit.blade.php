@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <a class="btn btn-default" href="{{ route('users.index') }}"> Back</a>
+                        <a class="btn btn-default" href="{{ $backRedirect }}"> Back</a>
                     </div>
                 </div>
                 {!! Form::close() !!}

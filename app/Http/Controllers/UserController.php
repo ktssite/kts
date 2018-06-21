@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use KTS\Http\Controllers\Controller;
 use KTS\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 use DB;
 use Hash;
 use Auth; 
+use Image; 
 
 class UserController extends Controller
 {
@@ -113,6 +115,8 @@ class UserController extends Controller
     {
         $this->checkAccess('user-edit'); 
         $loggedUser = Auth::user(); 
+        
+
         if (!$loggedUser->hasRole('Admin') && $loggedUser->id != $id) {
             abort(404, '404 Page not found.');
         }
@@ -122,7 +126,9 @@ class UserController extends Controller
         $userRole = $user->roles->pluck('name','name')->all();
         $weekdays = config('app.weekdays');
 
-        return view('users.edit',compact('user','roles','userRole','weekdays'));
+        $backRedirect = ($loggedUser->hasRole('Admin')) ? route('users.index') : route('users.show', $loggedUser->id); 
+
+        return view('users.edit',compact('user','roles','userRole','weekdays','backRedirect'));
     }
 
 
@@ -201,7 +207,7 @@ class UserController extends Controller
     public function ajaxAction(Request $request)
     {
         $this->checkAccess('user-change-status');
-        
+
         $id = $request->get('id'); 
         $action = $request->get('a');
         $user = User::find($id);
@@ -225,5 +231,45 @@ class UserController extends Controller
         }
 
         return response()->json([ 'result'=>$success, 'message'=>$message ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource' profile picture.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadProfileImg(Request $request)
+    {
+        $valid = $request->validate([
+            'avatar' => 'image',
+            'id' => 'required'
+        ]);
+        if (!$valid) return $valid; 
+
+        $id = $request->get('id'); 
+        if(!$id) abort(404, 'Page not found.');
+
+        $user = User::find($id);
+        $file = $request->file('avatar'); 
+        $now = strtotime('now'); 
+
+        if ($user && $file) {
+            $extension = '.'.$file->getClientOriginalExtension(); 
+            // dd($extension);
+            $path = Storage::putFileAs(
+                'public/avatars/usr-'.$user->id, $request->file('avatar'), 'avatar-'.$now.$extension
+            );
+            $img_path = substr($path, 7);
+            $user->profile_img = $img_path; 
+            $user->save(); 
+
+            //create a smaller version 
+            // $filename  = time() . '-thumb' . $extension;
+            // $path = 'public/avatars/usr-'.$user->id.'/'.$filename;
+            // Image::make($file->getRealPath())->resize(128, 128)->save($path);
+        }
+
+        return $user->getAvatar(); 
     }
 }

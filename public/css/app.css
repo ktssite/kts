@@ -3897,3 +3897,36 @@ input.error, select.error {
     padding-bottom: 11px;
     margin-bottom: 10px;
 }
+
+div.show-image {
+    position: relative;
+    width: 75%;
+    /*float:left;*/
+    /*margin:5px;*/
+}
+div.show-image:hover img{
+    opacity:0.5;
+}
+div.show-image:hover .prof-btn {
+    display: block;
+}
+div.show-image .prof-btn {
+    position:absolute;
+    display:none;
+}
+div.show-image #img-update {
+    top:0;
+    left:0;
+}
+div.show-image #img-delete {
+    top:0;
+    left:46%;
+}
+
+.show-image-modal{
+    display: block;
+    text-align: center;
+    margin: 0 150px;
+    border: 3px inset #ddd;
+    padding: 10px;
+}

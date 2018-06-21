@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@push('styles')
+<link href="{{ asset('vendors/pnotify/pnotify.custom.min.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 
@@ -48,10 +50,12 @@
                 <!-- x_content -->
                 <div class="x_content">
                     <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-                        <div class="profile_img">
+                        <div class="show-image">
                             <div id="crop-avatar">
                               <!-- Current avatar -->
-                              <img class="img-responsive avatar-view" src="{{ asset('images/profile.jpg') }}" alt="Avatar" title="Change the avatar">
+                                <img class="img-responsive avatar-view" src="{{ $user->getAvatar() }}" alt="Avatar" title="Change the avatar">
+                                <a id="img-update" class="prof-btn btn btn-success btn-xs" data-toggle="modal" data-target="#profPicModal">Update</a>
+                                <!-- <a id="img-delete" class="prof-btn btn btn-danger btn-xs">Delete</a> -->
                             </div>
                         </div>
                         <h3>{{ $user->username }}</h3>
@@ -64,7 +68,7 @@
                               <a href="http://www.kimlabs.com/profile/" target="_blank">www.kimlabs.com</a>
                             </li> -->
                         </ul>
-                        <a class="btn btn-success" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                        <a class="btn btn-success btn-xs" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                         <br />
                         <br />
                         <h4>Role(s)</h4>
@@ -99,40 +103,37 @@
     <!-- row -->
 </div>
 
-<!-- <div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2> Show User</h2>
+<!-- Modal -->
+<div class="modal fade" id="profPicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Profile Picture</h5>
+      </div>
+      <div class="modal-body">
+        <div class="show-image-modal">
+            <img class="img-responsive avatar-view" src="{{ $user->getAvatar() }}" alt="Avatar">
         </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-        </div>
+        <br>
+        <div class="clearfix"></div>
+        <form enctype="multipart/form-data" id="fileinfo" method="post">
+          {{ csrf_field() }}
+          <input type="hidden" name="id" value="{{$user->id}}">
+          <div class="form-group">
+            <label for="pImage">Select image</label>
+            <input type="file" name="avatar" class="form-control-file" id="pImage">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="upload-profimg" class="btn btn-primary">Upload</button>
+      </div>
     </div>
+  </div>
 </div>
-
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Name:</strong>
-            {{ $user->name }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Email:</strong>
-            {{ $user->email }}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Roles:</strong>
-            @if(!empty($user->getRoleNames()))
-                @foreach($user->getRoleNames() as $v)
-                    <label class="badge badge-success">{{ $v }}</label>
-                @endforeach
-            @endif
-        </div>
-    </div>
-</div> -->
 @endsection
+@push('scripts')
+<script type="text/javascript" src="{{ asset('vendors/pnotify/pnotify.custom.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/app/user/show.js') }}"></script>
+@endpush

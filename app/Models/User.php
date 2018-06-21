@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -75,5 +76,15 @@ class User extends Authenticatable
     {
         return $this->total_deposits - $this->total_withdrawals;
     } 
+
+    public function getAvatar()
+    {
+        return ($this->profile_img) ? asset(Storage::url($this->profile_img)) : asset('images/profile.jpg'); 
+    }
+
+    public function getImgIcon()
+    {
+        return ($this->profile_img) ? asset(Storage::url($this->profile_img)) : asset('images/default.jpg'); 
+    }
       
 }

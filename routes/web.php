@@ -20,11 +20,9 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function() {
 
 	// Users
+	Route::post('users/user/profileimg', ['as' => 'users.profileimg', 'uses' => 'UserController@uploadProfileImg']);
+	Route::post('users/ajax', ['as' => 'users.ajax', 'uses' => 'UserController@ajaxAction']);
 	Route::resource('users','UserController');
-	Route::group(['before' => 'permission:user-change-status'], function()
-	{
-		Route::post('users/ajax', ['as' => 'users.ajax', 'uses' => 'UserController@ajaxAction']);
-	});
 
 
     
