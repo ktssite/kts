@@ -10,7 +10,7 @@
 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 	<div class="tile-stats">
 		<div class="icon"><i class="fas fa-chart-line"></i></div>
-		<div class="count">$ {{ $amounts['tota_profits'] }}</div>
+		<div class="count">$ {{ $amounts['total_profits'] }}</div>
 		<h3>Total Profits</h3>
 		<p>Combined daily profits</p>
 	</div>

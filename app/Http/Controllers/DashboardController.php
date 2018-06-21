@@ -8,63 +8,94 @@ use KTS\Traits\UserTrait;
 use KTS\Models\User;
 use KTS\Models\Performance;
 
+use DB;
+
 class DashboardController extends Controller
 {
 	use UserTrait;
 
+    private static $details = [];
+
+    function __construct()
+    {
+        self::initalize();
+    }
+
     public function index()
     {
-    	$data = [];
-    	$data['amounts'] = [
-    		'available_equity'  => _d(self::me()->available_equity),
-    		'tota_profits'      => _d(self::me()->total_profits),
-    		'total_deposits'    => _d(self::me()->total_deposits),
-    		'total_withdrawals' => _d(self::me()->total_withdrawals)
-    	];
+        //Set Dasbhoards Details
+        self::setAmounts();
+    	self::setDailyRanking();
+        self::setWeekRanking();
+        self::setMonthlyRanking();
 
-    	$data['daily_rankings'] = self::getDailyRanking();
-
-        return view('dashboards.index', $data);
+        return view('dashboards.index', self::$details['data']);
     }
 
-    private function getDailyRanking()
+    private function setAmounts()
     {
-    	$ranks       = [];
-    	$latest_date = self::getLatestPerformanceDate();
-
-    	if($latest_date) {
-    		$users = User::role('Student')
-    					 ->select('users.*', 'p.date')
-    		             ->leftjoin('performances as p', 'p.user_id', '=', 'users.id')
-    		             ->where('p.date', $latest_date)
-    				     ->get();
-
-			$users = $users->sortByDesc(function($user){
-			    return $user->available_equity;
-			});
-
-	    	foreach ($users as $user) {
-	    		if($user->performances()->where('date', $latest_date)->exists()) {
-	    			$ranks[] = [
-	    				'name'             => $user->name,
-	    				'available_equity' => _d($user->available_equity),
-	    				'date'             => $latest_date
-	    			];
-	    		}
-	    	}
-    	}
-
-    	return $ranks;
-    	 
+        $columns = ['available_equity', 'total_profits', 'total_deposits', 'total_withdrawals'];
+        foreach ($columns as $column) {
+            self::$details['data']['amounts'][$column] = _d(self::me()->$column);
+        }
     }
 
-    private function getLatestPerformanceDate()
+    private function setDailyRanking()
     {
-    	$max = User::role('Student')
-    			   ->select('p.date')
-    	           ->join('performances as p', 'p.user_id', '=', 'users.id')
-    			   ->latest('p.date')->first();
+        self::$details['data']['daily_rankings'] = self::getBaseQuery()->where('p.date', self::$details['date'])->get();
+    }
 
-    	return isset($max->date)? $max->date: null;
+    private function setWeekRanking()
+    {
+        $rankings = self::getBaseQuery()->where(DB::raw("WEEK(p.date)"), self::$details['week'])->get();
+        $users = [];
+        $week = self::$details['week'];
+        foreach ($rankings as $rank) {
+            $users[$rank->id]['name']   = $rank->name;
+            $users[$rank->id]['equity'] = $rank->equity + (isset($users[$rank->id]['equity'])? $users[$rank->id]['equity']: 0);
+            $users[$rank->id]['date']   = $week;
+        }
+
+        self::$details['data']['weekly_rankings'] = $users;
+    }
+
+    private function setMonthlyRanking()
+    {
+        $rankings = self::getBaseQuery()->where(DB::raw("MONTH(p.date)"), self::$details['month'])->get();
+        $users = [];
+        $month = month(self::$details['month']);
+        foreach ($rankings as $rank) {
+            $users[$rank->id]['name']   = $rank->name;
+            $users[$rank->id]['equity'] = $rank->equity + (isset($users[$rank->id]['equity'])? $users[$rank->id]['equity']: 0);
+            $users[$rank->id]['date']   = $month;
+        }
+
+        self::$details['data']['monthly_rankings'] = $users;
+    }
+
+    private function getBaseQuery()
+    {
+        return User::select('users.id', 'p.date', 'users.name',
+                     DB::raw("(p.profit + (select sum(IF(type='Deposit', amount, amount*-1)) as total_fund from funds where user_id = users.id)) as equity"))
+                   ->role('Student')
+                   ->join('performances as p', 'p.user_id', '=', 'users.id')
+                   ->orderBy('equity', 'desc');
+    }
+
+    private function initalize()
+    {
+        $performance = User::select('p.date', DB::raw('WEEK(p.date) as week'), DB::raw('MONTH(p.date) as month'))
+                           ->role('Student')
+                           ->join('performances as p', 'p.user_id', '=', 'users.id')
+                           ->latest('p.date')->first();        
+
+        if($performance) {
+            self::$details['date']  = $performance->date;
+            self::$details['week']  = $performance->week;
+            self::$details['month'] = $performance->month;
+        } else {
+            self::$details['date'] = self::$details['week'] = self::$details['month'] = null;
+        }
+
     }
 }

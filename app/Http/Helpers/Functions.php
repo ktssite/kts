@@ -24,3 +24,7 @@ function pround($value) {
 function dbDate($date) {
 	return date_create($date)->format('Y-m-d');
 }
+
+function month($monthNum) {
+	return date('F', mktime(0, 0, 0, $monthNum, 10));
+}
