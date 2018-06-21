@@ -9,7 +9,16 @@ function onStatusChange() {
 	  type: 'POST',
 	  data: { _token:_token, id:id, a:'statupdate',checked:isChecked },
 	  dataType: 'json'
-	}).done(function(response) {
+	})
+	.fail(function(response) {
+	    new PNotify({
+              title: 'Error',
+              text: response.responseJSON.message,
+              type: 'error',
+              styling: 'bootstrap3'
+        });
+	})
+	.done(function(response) {
 	  if(!response.result) {
 	  		new PNotify({
                   title: 'Error',

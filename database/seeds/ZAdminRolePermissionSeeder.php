@@ -28,5 +28,10 @@ class ZAdminRolePermissionSeeder extends Seeder
         ]);
 
         $user->assignRole('Admin');
+
+        $student = Role::where('name','Student')->first(); 
+        if ($student) {
+            $student->givePermissionTo('user-edit');
+        }
     }
 }
