@@ -59,15 +59,15 @@
                             </div>
                         </div>
                         <h3>{{ $user->username }}</h3>
-                        <ul class="list-unstyled user_data">
+                        <!--<ul class="list-unstyled user_data">
                             <li><i class="fas fa-id-card user-profile-icon"></i> {{$user->name}}</li>
                             <li><i class="fas fa-at user-profile-icon"></i> {{$user->email}}</li>
 
-                            <!-- <li class="m-top-xs">
+                             <li class="m-top-xs">
                               <i class="fa fa-external-link user-profile-icon"></i>
                               <a href="http://www.kimlabs.com/profile/" target="_blank">www.kimlabs.com</a>
-                            </li> -->
-                        </ul>
+                            </li>
+                        </ul> -->
                         <a class="btn btn-success btn-xs" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                         <br />
                         <br />
@@ -90,8 +90,34 @@
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab"></div>
                             <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                                <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                                  photo booth letterpress, commodo enim craft beer mlkshk </p>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <br><br><br>
+                                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                                          <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"> <i class="fas fa-id-card user-profile-icon"></i> Name </span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                              <span class="form-text-value col-md-7 col-xs-12">{{$user->name}}</span>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email"><i class="fas fa-at user-profile-icon"></i> Email
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                              <span class="form-text-value col-md-7 col-xs-12">{{$user->email}}</span>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12"><i class="glyphicon glyphicon-calendar"></i> Trading day</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <span class="form-text-value col-md-7 col-xs-12">{{ ($user->trading_day) ? config('app.weekdays')[$user->trading_day] : '' }}</span>
+                                            </div>
+                                          </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

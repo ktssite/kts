@@ -12,7 +12,6 @@
     <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <!-- <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet"> -->
     <!-- NProgress -->
     <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet">
     <!-- iCheck -->
@@ -46,7 +45,7 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="/home" class="site_title">
+                            <a href="/dashboard" class="site_title">
                                 <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="50"> 
                                 <span class="logotext">KRAITE TRADING SCHOOL</span>
                                 <i class="fas fa-chart-line"></i> <span>{{ config('app.name', 'Laravel') }}</span>

@@ -3930,3 +3930,10 @@ div.show-image #img-delete {
     border: 3px inset #ddd;
     padding: 10px;
 }
+
+.form-text-value {
+    padding: 6px 12px;
+    font-size: 14px;
+    display: block;
+    color: #555;
+}
