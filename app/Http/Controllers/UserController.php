@@ -252,22 +252,27 @@ class UserController extends Controller
 
         $user = User::find($id);
         $file = $request->file('avatar'); 
-        $now = strtotime('now'); 
+        $now = time(); 
 
         if ($user && $file) {
             $extension = '.'.$file->getClientOriginalExtension(); 
             // dd($extension);
-            $path = Storage::putFileAs(
+            $avatar = Storage::putFileAs(
                 'public/avatars/usr-'.$user->id, $request->file('avatar'), 'avatar-'.$now.$extension
             );
-            $img_path = substr($path, 7);
+            $img_path = substr($avatar, 7);
             $user->profile_img = $img_path; 
             $user->save(); 
 
-            //create a smaller version 
-            // $filename  = time() . '-thumb' . $extension;
-            // $path = 'public/avatars/usr-'.$user->id.'/'.$filename;
-            // Image::make($file->getRealPath())->resize(128, 128)->save($path);
+            // $thumb = Storage::putFileAs(
+            //     'public/avatars/usr-'.$user->id, $request->file('avatar'), 'thumb-'.$now.$extension
+            // );
+
+            // // dd(Storage::url('avatars/usr-'.$user->id.'/thumb-'.$now.$extension));
+            // $img = Image::make( Storage::url('avatars/usr-'.$user->id.'/thumb-'.$now.$extension) )->resize(128, 128);
+            // dd($path);
+            //copy the file to the correct folder
+            // Storage::move(asset('tmp_uploads/'. $filename), 'public/avatars/usr-'.$user->id.'/'.$filename);
         }
 
         return $user->getAvatar(); 

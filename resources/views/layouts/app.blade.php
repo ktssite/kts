@@ -57,7 +57,7 @@
                         <!-- menu profile quick info -->
                         <div class="profile clearfix">
                           <div class="profile_pic">
-                            <img src="{{ Auth::user()->getImgIcon() }}" alt="..." class="img-circle profile_img">
+                            <img src="{{ Auth::user()->getImgIcon() }}" alt="..." class="img-circle profile_img avatar-view">
                           </div>
                           <div class="profile_info">
                             <span>Welcome,</span>
@@ -112,7 +112,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ Auth::user()->getImgIcon() }}" alt="">{{ Auth::user()->username }}&nbsp; 
+                                    <img src="{{ Auth::user()->getImgIcon() }}" alt="..." class="avatar-view">{{ Auth::user()->username }}&nbsp; 
                                     <span class=" fa fa-angle-down"></span>
                                   </a>
                                   <ul class="dropdown-menu dropdown-usermenu pull-right">
