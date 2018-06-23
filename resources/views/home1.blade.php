@@ -247,7 +247,7 @@
                 <!-- /contact -->
 
                 <!-- contact form -->
-                <div class="col-md-8 col-md-offset-2">
+                <!-- <div class="col-md-8 col-md-offset-2">
                     <form class="contact-form">
                         <input type="text" class="input" placeholder="Name">
                         <input type="email" class="input" placeholder="Email">
@@ -255,7 +255,7 @@
                         <textarea class="input" placeholder="Message"></textarea>
                         <button class="main-btn">Send message</button>
                     </form>
-                </div>
+                </div> -->
                 <!-- /contact form -->
 
             </div>
