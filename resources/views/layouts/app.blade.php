@@ -72,12 +72,23 @@
                                     <li><a href="{{ url('/dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard </a></li>
                                     <li><a href="{{ url('/performance') }}"><i class="fas fa-chart-line"></i> Peformance </a></li>
                                     <li><a href="{{ url('/fund') }}"><i class="fas fa-hand-holding-usd"></i> Funds </a></li>
-                                    @can('user-list')
-                                        <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
-                                    @endcan
-                                    @can('role-list')
-                                        <li><a href="{{ route('roles.index') }}"><i class="fas fa-users"></i> Roles </a></li>
-                                    @endcan
+                                    @role('Admin')
+                                        <li>
+                                            <a><i class="fas fa-user"></i> User Management &nbsp;<span class="fas fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                @can('user-list')
+                                                <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
+                                                @endcan
+                                                @can('role-list')
+                                                    <li><a href="{{ route('roles.index') }}"><i class="fas fa-users"></i> Roles </a></li>
+                                                @endcan
+                                                @can('role-list')
+                                                    <li><a href="{{ route('permissions.index') }}"><i class="fas fa-table"></i> Permissions </a></li>
+                                                @endcan
+                                            </ul>
+                                        </li>
+                                    @endrole
+                                    
                                 </ul>
                             </div>
                         </div>
