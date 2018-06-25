@@ -39,7 +39,7 @@
             </div>
             @endif
 
-            <table class="table table-hover table-bordered display" id="user_tbl">
+            <table class="table table-hover table-condensed display" id="user_tbl">
               <thead>
                 <tr>
                  <th>No</th>
