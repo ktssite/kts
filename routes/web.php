@@ -23,11 +23,10 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('users/user/profileimg', ['as' => 'users.profileimg', 'uses' => 'UserController@uploadProfileImg']);
 	Route::post('users/ajax', ['as' => 'users.ajax', 'uses' => 'UserController@ajaxAction']);
 	Route::resource('users','UserController');
-
-
     
-    
+    Route::resource('permissions','PermissionController');
     Route::resource('roles','RoleController');
+
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::resource('/performance', 'PerformanceController');

@@ -35,7 +35,7 @@ $(document).ready( function () {
 	//*************************Datatable*******************//
     $('#user_tbl').DataTable({
     	// responsive: true,
-    	"pageLength": 50,
+    	"pageLength": 100,
 		scrollCollapse: true,
 		"columnDefs": [ { "orderable": false, "targets": [3,4,5] } ]
     });

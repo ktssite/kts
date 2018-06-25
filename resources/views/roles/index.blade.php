@@ -1,18 +1,11 @@
 @extends('layouts.app')
-
+@push('styles')
+<link href="{{ asset('vendors/Datatable/datatables.min.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 
 <div class="">
- <!--  <div class="page-title">
-      <div class="title_left">
-        <h3>Role Management</h3>
-      </div>
-
-      <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search"></div>
-      </div>
-  </div> -->
     
   <div class="clearfix"></div>
 
@@ -33,35 +26,63 @@
         <!-- x_content -->
         <div class="x_content">
             @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
+              <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                  </button>
+                  <p>{{ $message }}</p>
+              </div>
+              <br>
             @endif
-
-            <table class="table table-bordered table-hover table-condensed">
-              <tr>
-                 <th>No</th>
-                 <th>Name</th>
-                 <th width="280px">Action</th>
-              </tr>
-                @foreach ($roles as $key => $role)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $role->name }}</td>
-                    <td>
-                        <a class="btn btn-info btn-xs" href="{{ route('roles.show',$role->id) }}">Show</a>
-                        @can('role-edit')
-                            <a class="btn btn-primary btn-xs" href="{{ route('roles.edit',$role->id) }}">Edit</a>
-                        @endcan
-                        @can('role-delete')
-                            {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                            {!! Form::close() !!}
-                        @endcan
-                    </td>
-                </tr>
+            
+            <div class="col-xs-3">
+              <!-- required for floating -->
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs tabs-left roles-nav">
+                @foreach($data as $key => $role)
+                <li class="{{ ($key == 0) ? 'active' : '' }}"><a href="#{{strtolower($role->name)}}" data-toggle="tab"><b>{{ $role->name }}</a></b></li>
                 @endforeach
-            </table>
+              </ul>
+            </div>
+
+            <div class="col-xs-9">              
+              <!-- Tab panes -->
+              <div class="tab-content">
+                @foreach($data as $key => $role)
+                <div class="tab-pane {{ ($key == 0) ? 'active' : '' }}" id="{{strtolower($role->name)}}">                  
+                  <div class="row">
+                      <div class="col-lg-12 margin-tb">
+                          <div class="pull-left">
+                              <p class="lead">Permissions - <b>{{ $role->name }}</b></p>
+                          </div>
+                          <div class="pull-right">
+                              @can('role-edit')
+                                <a class="btn btn-info btn-xs" href="{{ route('roles.edit',$role->id) }}"><i class="fas fa-pencil-alt "></i> Edit</a>
+                              @endcan
+                              @can('role-delete')
+                                {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
+                                  <button type="submit" class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i> Delete</button>
+                                {!! Form::close() !!}
+                              @endcan
+                          </div>
+                      </div>
+                  </div>
+                  <div class="">
+                    <table class="table table-striped table-condensed">
+                      @foreach($role->permissions as $permission)
+                      <tr>
+                        <td width="5%"> <i class="far fa-check-square"></i> </td>
+                        <td>{{ $permission->name }}</td>
+                      </tr>
+                      @endforeach
+                    </table>
+                  </div>
+                </div>
+                @endforeach
+                <br>
+              </div>
+            </div>
+
+          <div class="clearfix"></div>
 
         </div>
         <!-- x_content -->
@@ -70,7 +91,8 @@
   </div>
 </div>
 
-{!! $roles->render() !!}
-
 
 @endsection
+@push('scripts')
+<script type="text/javascript" src="{{ asset('vendors/Datatable/datatables.min.js') }}"></script>
+@endpush
