@@ -86,5 +86,9 @@ class User extends Authenticatable
     {
         return ($this->profile_img) ? asset(Storage::url($this->profile_img)) : asset('images/default.jpg'); 
     }
-      
+
+    public function getLatestProfitDate()
+    {
+        return _date(self::performances()->latest()->value('date'));
+    }
 }

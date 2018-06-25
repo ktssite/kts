@@ -9,9 +9,9 @@
 			<li class="media event">
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
-					<a class="title" href="#">{{ $weekly['name'] }}</a>
-					<p><strong>$ {{ _d($weekly['equity']) }}</strong></p>
-					<p> <small>Week {{ $weekly['date'] }}</small></p>
+					<a class="title" href="#">{{ $weekly->name }}</a>
+					<p><strong class="label label-warning">{{ $weekly->weekly_change }} %</strong></p>
+					<p> <small>Week {{ $weekly->week }}</small></p>
 				</div>
 			</li>
 			@endforeach

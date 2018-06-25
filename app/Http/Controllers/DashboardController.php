@@ -23,11 +23,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        //Set Dasbhoards Details
         self::setAmounts();
     	self::setDailyRanking();
-        self::setWeekRanking();
+        self::setWeeklyRanking();
         self::setMonthlyRanking();
+        self::setEquitySummary();
 
         return view('dashboards.index', self::$details['data']);
     }
@@ -42,44 +42,42 @@ class DashboardController extends Controller
 
     private function setDailyRanking()
     {
-        self::$details['data']['daily_rankings'] = self::getBaseQuery()->where('p.date', self::$details['date'])->get();
+        self::$details['data']['daily_rankings'] = self::getUsers()->each(function($user) {
+            $profit_today       = $user->performances()->where('date', self::$details['date'])->value('profit');
+            $equity_yesterday   = $user->available_equity - $profit_today;
+            $user->daily_change = pround(($profit_today / $equity_yesterday) * 100);
+            $user->date         = _date(self::$details['date']);
+        })->sortByDesc('daily_change');
     }
 
-    private function setWeekRanking()
+    private function setWeeklyRanking()
     {
-        $rankings = self::getBaseQuery()->where(DB::raw("WEEK(p.date)"), self::$details['week'])->get();
-        $users = [];
-        $week = self::$details['week'];
-        foreach ($rankings as $rank) {
-            $users[$rank->id]['name']   = $rank->name;
-            $users[$rank->id]['equity'] = $rank->equity + (isset($users[$rank->id]['equity'])? $users[$rank->id]['equity']: 0);
-            $users[$rank->id]['date']   = $week;
-        }
-
-        self::$details['data']['weekly_rankings'] = $users;
+        self::$details['data']['weekly_rankings'] = self::getUsers()->each(function($user) {
+            $profit_this_week    = $user->performances()->where(DB::raw("WEEK(date)"), self::$details['week'])->value('profit');
+            $equity_last_week    = $user->available_equity - $profit_this_week;
+            $user->weekly_change = pround(($profit_this_week / $equity_last_week) * 100);
+            $user->week          = self::$details['week'];
+        })->sortByDesc('weekly_change');
     }
 
     private function setMonthlyRanking()
     {
-        $rankings = self::getBaseQuery()->where(DB::raw("MONTH(p.date)"), self::$details['month'])->get();
-        $users = [];
-        $month = month(self::$details['month']);
-        foreach ($rankings as $rank) {
-            $users[$rank->id]['name']   = $rank->name;
-            $users[$rank->id]['equity'] = $rank->equity + (isset($users[$rank->id]['equity'])? $users[$rank->id]['equity']: 0);
-            $users[$rank->id]['date']   = $month;
-        }
-
-        self::$details['data']['monthly_rankings'] = $users;
+        self::$details['data']['monthly_rankings'] = self::getUsers()->each(function($user) {
+            $profit_this_month    = $user->performances()->where(DB::raw("WEEK(date)"), self::$details['week'])->value('profit');
+            $equity_last_month   = $user->available_equity - $profit_this_month;
+            $user->monthly_change = pround(($profit_this_month / $equity_last_month) * 100);
+            $user->month          = month(self::$details['month']);
+        })->sortByDesc('monthly_change');
     }
 
-    private function getBaseQuery()
+    private function setEquitySummary()
     {
-        return User::select('users.id', 'p.date', 'users.name',
-                     DB::raw("(p.profit + (select sum(IF(type='Deposit', amount, amount*-1)) as total_fund from funds where user_id = users.id)) as equity"))
-                   ->role('Student')
-                   ->join('performances as p', 'p.user_id', '=', 'users.id')
-                   ->orderBy('equity', 'desc');
+        self::$details['data']['equity_summary'] = self::getUsers()->sortByDesc('available_equity');
+    }
+
+    private function getUsers()
+    {
+        return User::role('Student')->get();
     }
 
     private function initalize()
