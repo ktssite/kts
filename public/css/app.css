@@ -3937,3 +3937,5 @@ div.show-image #img-delete {
     display: block;
     color: #555;
 }
+
+.roles-nav li.active { border-right: 5px solid #1ABB9C; }

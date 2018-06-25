@@ -7,9 +7,6 @@
         <div class="pull-left">
             <h2>Edit Role</h2>
         </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
-        </div>
     </div>
 </div>
 
@@ -39,14 +36,18 @@
             <strong>Permission:</strong>
             <br/>
             @foreach($permission as $value)
-                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
-            <br/>
+                <div class="checkbox">
+                    <label>
+                      {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name flat')) }}
+                      &nbsp; {{ $value->name }}
+                    </label>
+                </div>
             @endforeach
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-default" href="{{ route('roles.index') }}"> Back</a>
     </div>
 </div>
 {!! Form::close() !!}

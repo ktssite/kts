@@ -71,11 +71,11 @@
                     </div>
                   </td>
                   <td>
-                     <a class="btn btn-info btn-xs" href="{{ route('users.show',$user->id) }}">Show</a>
-                     <a class="btn btn-primary btn-xs" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                      {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                          {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                      {!! Form::close() !!}
+                    <a href="{{ route('users.show',$user->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                    <a href="{{ route('users.edit',$user->id) }}" class="btn btn-info btn-xs"><i class="fas fa-pencil-alt "></i> Edit </a>
+                    {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+                        <button type="submit" class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i> Delete</button>
+                    {!! Form::close() !!}
                   </td>
                 </tr>
                 @endforeach

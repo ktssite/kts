@@ -3,7 +3,7 @@ $(document).ready( function () {
 	//*************************Datatable*******************//
     $('#permission_tbl').DataTable({
     	// responsive: true,
-    	"pageLength": 50,
+    	"pageLength": 100,
 		scrollCollapse: true,
 		"columnDefs": [ { "orderable": false, "targets": [2] } ]
     });

@@ -68,29 +68,29 @@
                         <!-- sidebar menu -->
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
+                                <h3>General</h3>
                                 <ul class="nav side-menu">
                                     <li><a href="{{ url('/dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard </a></li>
                                     <li><a href="{{ url('/performance') }}"><i class="fas fa-chart-line"></i> Peformance </a></li>
-                                    <li><a href="{{ url('/fund') }}"><i class="fas fa-hand-holding-usd"></i> Funds </a></li>
-                                    @role('Admin')
-                                        <li>
-                                            <a><i class="fas fa-user"></i> User Management &nbsp;<span class="fas fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                @can('user-list')
-                                                <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
-                                                @endcan
-                                                @can('role-list')
-                                                    <li><a href="{{ route('roles.index') }}"><i class="fas fa-users"></i> Roles </a></li>
-                                                @endcan
-                                                @can('role-list')
-                                                    <li><a href="{{ route('permissions.index') }}"><i class="fas fa-table"></i> Permissions </a></li>
-                                                @endcan
-                                            </ul>
-                                        </li>
-                                    @endrole
-                                    
+                                    <li><a href="{{ url('/fund') }}"><i class="fas fa-hand-holding-usd"></i> Funds </a></li>                                    
                                 </ul>
                             </div>
+                            @role('Admin')
+                            <div class="menu_section">
+                                <h3>Admin</h3>
+                                <ul class="nav side-menu">
+                                    @can('user-list')
+                                    <li><a href="{{ route('users.index') }}"><i class="fas fa-user"></i> Users </a></li>
+                                    @endcan
+                                    @can('role-list')
+                                        <li><a href="{{ route('roles.index') }}"><i class="fas fa-users"></i> Roles </a></li>
+                                    @endcan
+                                    @can('role-list')
+                                        <li><a href="{{ route('permissions.index') }}"><i class="fas fa-table"></i> Permissions </a></li>
+                                    @endcan                              
+                                </ul>
+                            </div>
+                            @endrole                                    
                         </div>
                         <!-- /sidebar menu -->
                         <!-- /menu footer buttons -->

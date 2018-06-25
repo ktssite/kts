@@ -43,10 +43,10 @@
                   <td>{{ $permission->id }}</td>
                   <td>{{ $permission->name }}</td>
                   <td>
-                     <a class="btn btn-primary btn-xs" href="{{ route('permissions.edit',$permission->id) }}">Edit</a>
-                      {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
-                          {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                      {!! Form::close() !!}
+                    <a href="{{ route('permissions.edit',$permission->id) }}" class="btn btn-info btn-xs"><i class="fas fa-pencil-alt "></i> Edit </a>
+                    {!! Form::open(['method' => 'DELETE','route' => ['permissions.destroy', $permission->id],'style'=>'display:inline']) !!}
+                        <button type="submit" class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i> Delete</button>
+                    {!! Form::close() !!}
                   </td>
                 </tr>
                 @endforeach
