@@ -241,6 +241,7 @@ class UserController extends Controller
      */
     public function uploadProfileImg(Request $request)
     {
+        DB::beginTransaction(); 
         $valid = $request->validate([
             'avatar' => 'image',
             'id' => 'required'
@@ -256,25 +257,30 @@ class UserController extends Controller
 
         if ($user && $file) {
             $extension = '.'.$file->getClientOriginalExtension(); 
-            // dd($extension);
-            $avatar = Storage::putFileAs(
-                'public/avatars/usr-'.$user->id, $request->file('avatar'), 'avatar-'.$now.$extension
-            );
-            $img_path = substr($avatar, 7);
-            $user->profile_img = $img_path; 
-            $user->save(); 
+            $folder = 'public'; $sub_folder = 'avatars/usr-'.$user->id;
+            $destination_path = $folder.'/'.$sub_folder; 
+            //create the thumbnail
+            $img = Image::make($file);
+            $img->resize(128, 128, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream();
+            Storage::put($destination_path.'/thumb-'.$now.$extension, $img->encode());
 
-            // $thumb = Storage::putFileAs(
-            //     'public/avatars/usr-'.$user->id, $request->file('avatar'), 'thumb-'.$now.$extension
+            //create profile image
+            $img = Image::make($file);
+            $img->resize(220, 220, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream();
+            $uploaded = Storage::put($destination_path.'/avatar-'.$now.$extension, $img->encode());
+            // Storage::putFileAs(
+            //     'public/avatars/usr-'.$user->id, $file, 'avatar-'.$now.$extension
             // );
-
-            // // dd(Storage::url('avatars/usr-'.$user->id.'/thumb-'.$now.$extension));
-            // $img = Image::make( Storage::url('avatars/usr-'.$user->id.'/thumb-'.$now.$extension) )->resize(128, 128);
-            // dd($path);
-            //copy the file to the correct folder
-            // Storage::move(asset('tmp_uploads/'. $filename), 'public/avatars/usr-'.$user->id.'/'.$filename);
+            if ($uploaded) {
+                $user->profile_img = $sub_folder.'/avatar-'.$now.$extension; 
+                $user->save(); 
+            }
         }
-
-        return $user->getAvatar(); 
+        DB::commit(); 
+        return response()->json([ 'avatar'=> $user->getAvatar(), 'thumb'=> $user->getThumbnail() ]); 
     }
 }

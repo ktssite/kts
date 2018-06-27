@@ -13,7 +13,8 @@ $(document).ready( function () {
           processData: false,
           success: function(data){
             if (data) {
-                $('.avatar-view').attr('src', data);
+                $('.avatar-view').attr('src', data.avatar);
+                $('.thumb-view').attr('src', data.thumb);
                 form.reset(); 
                 new PNotify({
                       title: 'Success',
