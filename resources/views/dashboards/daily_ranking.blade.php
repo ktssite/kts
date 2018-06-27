@@ -9,9 +9,9 @@
 			<li class="media event">
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
-					<a class="title" href="#">{{ $daily['name'] }}</a>
-					<p><strong>$ {{ _d($daily['equity']) }}</strong></p>
-					<p> <small>{{ $daily['date'] }}</small></p>
+					<a class="title" href="#">{{ $daily->name }}</a>
+					<p><strong class="label label-primary">{{ $daily->daily_change }} %</strong></p>
+					<p> <small>{{ $daily->date }}</small></p>
 				</div>
 			</li>
 			@endforeach

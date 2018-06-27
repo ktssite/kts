@@ -28,3 +28,7 @@ function dbDate($date) {
 function month($monthNum) {
 	return date('F', mktime(0, 0, 0, $monthNum, 10));
 }
+
+function _date($date) {
+	return date_format(date_create($date), 'F j, Y');
+}

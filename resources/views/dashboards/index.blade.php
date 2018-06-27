@@ -16,17 +16,21 @@ ul.top_profiles { min-height: 63vh; overflow-y: auto; }
 </div>
 
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-3">
 		@include('dashboards.daily_ranking')
 	</div>	
 
-	<div class="col-md-4">
+	<div class="col-md-3">
 		@include('dashboards.weekly_ranking')
 	</div>		
 
-	<div class="col-md-4">
+	<div class="col-md-3">
 		@include('dashboards.monthly_ranking')
-	</div>		
+	</div>	
+
+	<div class="col-md-3">
+		@include('dashboards.equity_summary')
+	</div>	
 </div>
 @endsection
 @push('scripts')

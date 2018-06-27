@@ -97,5 +97,9 @@ class User extends Authenticatable
         }
         return $imgSrc;
     }
-      
+
+    public function getLatestProfitDate()
+    {
+        return _date(self::performances()->latest()->value('date'));
+    }
 }

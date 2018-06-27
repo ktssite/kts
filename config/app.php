@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'KTS'),
+    'name' => env('APP_NAME', 'Kraite Trading School'),
 
     /*
     |--------------------------------------------------------------------------
