@@ -50,11 +50,11 @@
                 <!-- x_content -->
                 <div class="x_content">
                     <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-                        <div class="show-image">
+                        <div class="profile_img show-image">
                             <div id="crop-avatar">
                               <!-- Current avatar -->
                                 <img class="img-responsive avatar-view" src="{{ $user->getAvatar() }}" alt="Avatar" title="Change the avatar">
-                                <a id="img-update" class="prof-btn btn btn-info btn-xs" data-toggle="modal" data-target="#profPicModal"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a id="img-update" class="prof-btn btn btn-info btn-xs" data-toggle="modal" data-target="#profPicModal"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
                                 <!-- <a id="img-delete" class="prof-btn btn btn-danger btn-xs">Delete</a> -->
                             </div>
                         </div>

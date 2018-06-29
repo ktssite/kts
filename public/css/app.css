@@ -3898,12 +3898,7 @@ input.error, select.error {
     margin-bottom: 10px;
 }
 
-div.show-image {
-    position: relative;
-    width: 75%;
-    float:left;
-    margin:5px;
-}
+
 div.show-image:hover img{
     opacity:0.5;
 }
@@ -3915,7 +3910,7 @@ div.show-image .prof-btn {
     display:none;
 }
 div.show-image #img-update {
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
 }
