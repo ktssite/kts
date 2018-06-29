@@ -54,7 +54,7 @@
                             <div id="crop-avatar">
                               <!-- Current avatar -->
                                 <img class="img-responsive avatar-view" src="{{ $user->getAvatar() }}" alt="Avatar" title="Change the avatar">
-                                <a id="img-update" class="prof-btn btn btn-success btn-xs" data-toggle="modal" data-target="#profPicModal">Update</a>
+                                <a id="img-update" class="prof-btn btn btn-info btn-xs" data-toggle="modal" data-target="#profPicModal"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <!-- <a id="img-delete" class="prof-btn btn btn-danger btn-xs">Delete</a> -->
                             </div>
                         </div>

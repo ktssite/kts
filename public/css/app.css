@@ -3901,8 +3901,8 @@ input.error, select.error {
 div.show-image {
     position: relative;
     width: 75%;
-    /*float:left;*/
-    /*margin:5px;*/
+    float:left;
+    margin:5px;
 }
 div.show-image:hover img{
     opacity:0.5;
@@ -3915,8 +3915,9 @@ div.show-image .prof-btn {
     display:none;
 }
 div.show-image #img-update {
-    top:0;
-    left:0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 div.show-image #img-delete {
     top:0;
@@ -3924,11 +3925,10 @@ div.show-image #img-delete {
 }
 
 .show-image-modal{
+    position: relative;
     display: block;
-    text-align: center;
     margin: 0 150px;
-    border: 3px inset #ddd;
-    padding: 10px;
+    text-align: center;
 }
 
 .form-text-value {

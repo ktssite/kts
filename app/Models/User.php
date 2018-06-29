@@ -82,9 +82,20 @@ class User extends Authenticatable
         return ($this->profile_img) ? asset(Storage::url($this->profile_img)) : asset('images/profile.jpg'); 
     }
 
-    public function getImgIcon()
+    public function getThumbnail()
     {
-        return ($this->profile_img) ? asset(Storage::url($this->profile_img)) : asset('images/default.jpg'); 
+        $imgSrc = asset('images/default.jpg');
+        if ($this->profile_img) {
+            $partition = explode('/',$this->profile_img);
+            $folder = $partition[0]. '/' .$partition[1];
+            if (isset($partition[2])) {
+                $file = $partition[2];
+                $idx = strpos($file, '-');
+                $imgSrc = 'thumb'. substr($file, $idx);
+                $imgSrc = Storage::url($folder. '/' .$imgSrc);
+            }
+        }
+        return $imgSrc;
     }
 
     public function getLatestProfitDate()
