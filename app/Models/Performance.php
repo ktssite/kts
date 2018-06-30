@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Performance extends Model
 {
-    protected $fillable = ['user_id', 'date', 'profit'];
-    protected $appends  = ['year', 'month', 'week', 'day', 'la'];
+    protected $fillable = ['user_id', 'date', 'lot_size', 'pip', 'profit'];
+    protected $appends  = ['year', 'month', 'week', 'day'];
 
     public function user()
     {
@@ -25,10 +25,14 @@ class Performance extends Model
     	return is_string($value)? date_format(date_create($value), 'm/d/Y'): $value->format('m/d/Y');
     }
 
-    public function setProfitAttribute($value)
+
+    /**
+     * Mutate the value before saving to the database.
+     */    
+    public function setPipAttribute($value)
     {
-    	$this->attributes['profit'] = $value * config('app.decimal_places');
-    }       
+        $this->attributes['pip'] = $value * config('app.decimal_places');
+    }
 
     /**
      * Append customer columns based on date

@@ -4,14 +4,18 @@ namespace KTS\Http\Controllers;
 
 use Illuminate\Http\Request;
 use KTS\Traits\UserTrait;
+use KTS\Models\User;
+use KTS\Models\Performance;
 
 class PerformanceController extends Controller
 {
     use UserTrait;
 
-    public function index()
+    public function index(Request $request)
     {
-        $performances = self::me()->performances()->orderBy('date')->get();
+        $performances      = self::me()->performances()->orderBy('date')->get();
+        $group_performance = self::getGroupPerformance($request);
+        $students          = User::role('Student')->get();
 
         //Initializations
         $equity = $prev_equity_daily 
@@ -48,22 +52,19 @@ class PerformanceController extends Controller
             $prev_equity_daily = $equity;
         }
 
-        return view('performances.index', compact('performances'));
+        return view('performances.index', compact('performances', 'group_performance', 'students'));
     }
 
     public function store(Request $request)
     {
         $alert = self::errorMessage(); 
+        $input = $request->except('_token');
 
-        $input = $request->all();
-        if($input['profit'] && $input['date']) {
-            //check for duplicate date. Do not allow if it's already added.
-            if(self::me()->performances()->where('date', dbDate($input['date']))->exists()) {
-                $alert = ['type' => 'warning', 'message' => 'An entry with the same date already exist. You may just update it.'];
-            } else {
-                $performance = self::me()->performances()->create(['date' => $input['date'], 'profit' => $input['profit']]);
-                if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
-            }
+        if($input['date'] && $input['lot_size'] && $input['pip']) {
+            $input['profit'] = self::setProfitValue($input['lot_size'], $input['pip']);
+            $performance     = self::me()->performances()->create($input);
+
+            if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
         }
         
         return redirect()->back()->with(['alert' => $alert]);
@@ -73,8 +74,15 @@ class PerformanceController extends Controller
     {
         $alert = self::errorMessage(); 
 
-        if($request->pid && $request->e_date && $request->e_date) {
-            $performance = self::me()->performances()->find($request->pid)->update(['date' => $request->e_date, 'profit' => $request->e_profit]);
+        if($request->pid && $request->e_date && $request->e_lot_size && array_key_exists($request->e_lot_size, config('app.lot_size_value'))) {
+            $update = [
+                'date'     => $request->e_date,
+                'lot_size' => $request->e_lot_size,
+                'pip'      => $request->e_pip,
+                'profit'   => self::setProrfitValue($request->e_lot_size, $request->e_pip)
+            ];
+
+            $performance = self::me()->performances()->find($request->pid)->update($update);
             if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully updated.'];
         }
         
@@ -94,9 +102,24 @@ class PerformanceController extends Controller
 
     } 
 
+    private function setProrfitValue($lot_size, $pip)
+    {
+        return ($pip * config('app.decimal_places')) * config('app.lot_size_value')[$lot_size];
+    }
+
     private function calculateProfit($change, $value)
     {
         if($value > 0) return pround(($change / $value) * 100);
         return 0;
+    }
+
+    private function getGroupPerformance($request)
+    {  
+        $date         = $request->has('d')? date_format(date_create($request->d), 'Y-m-d'): date("Y-m-d");
+        $student_ids  = (array) $request->s;
+        $performances = Performance::where('date', $date);
+
+        if(count($student_ids)) $performances = $performances->whereIn('user_id', $student_ids);
+        return $performances->get();
     }
 }
