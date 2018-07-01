@@ -12,7 +12,6 @@
 */
 
 Route::get('/', function () {
-	dd(storage_path());
     return view('home1');
 });
 
