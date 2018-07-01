@@ -41,11 +41,16 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'db4free.net'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'ktsdb1'),
-            'username' => env('DB_USERNAME', 'ktsuser1'),
-            'password' => env('DB_PASSWORD', 'kts_site_pass1'),
+            // 'host' => env('DB_HOST', 'db4free.net'),
+            // 'database' => env('DB_DATABASE', 'ktsdb1'),
+            // 'username' => env('DB_USERNAME', 'ktsuser1'),
+            // 'password' => env('DB_PASSWORD', 'kts_site_pass1'),
+            'host' => env('DB_HOST', 'sql7.freemysqlhosting.net'),
+            'database' => env('DB_DATABASE', 'sql7245493'),
+            'username' => env('DB_USERNAME', 'sql7245493'),
+            'password' => env('DB_PASSWORD', 'tpRfaMr9za'),
+                        
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
