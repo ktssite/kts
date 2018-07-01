@@ -104,7 +104,7 @@ class PerformanceController extends Controller
 
     private function setProfitValue($lot_size, $pip)
     {
-        return ($pip * config('app.decimal_places')) * config('app.lot_size_value')[$lot_size];
+        return $pip * config('app.lot_size_value')[$lot_size];
     }
 
     private function calculateProfit($change, $value)
