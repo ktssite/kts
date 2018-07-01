@@ -79,7 +79,7 @@ class PerformanceController extends Controller
                 'date'     => $request->e_date,
                 'lot_size' => $request->e_lot_size,
                 'pip'      => $request->e_pip,
-                'profit'   => self::setProrfitValue($request->e_lot_size, $request->e_pip)
+                'profit'   => self::setProfitValue($request->e_lot_size, $request->e_pip)
             ];
 
             $performance = self::me()->performances()->find($request->pid)->update($update);
@@ -102,7 +102,7 @@ class PerformanceController extends Controller
 
     } 
 
-    private function setProrfitValue($lot_size, $pip)
+    private function setProfitValue($lot_size, $pip)
     {
         return ($pip * config('app.decimal_places')) * config('app.lot_size_value')[$lot_size];
     }
