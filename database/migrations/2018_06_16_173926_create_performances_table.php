@@ -17,7 +17,8 @@ class CreatePerformancesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date');
-            $table->enum('lot_size', ['DAX', 'GER30', 'Gold']);
+            $table->enum('instrument', ['Forex', 'Commodities', 'Index']);
+            $table->bigInteger('lot_size');
             $table->bigInteger('pip');
             $table->bigInteger('profit');
             $table->timestamps();

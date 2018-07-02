@@ -60,10 +60,8 @@ class PerformanceController extends Controller
         $alert = self::errorMessage(); 
         $input = $request->except('_token');
 
-        if($input['date'] && $input['lot_size'] && $input['pip']) {
-            $input['profit'] = self::setProfitValue($input['lot_size'], $input['pip']);
-            $performance     = self::me()->performances()->create($input);
-
+        if($input['date'] && $input['lot_size'] && $input['pip'] && $input['profit'] && $input['instrument']) {
+            $performance = self::me()->performances()->create($input);
             if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
         }
         
@@ -74,15 +72,16 @@ class PerformanceController extends Controller
     {
         $alert = self::errorMessage(); 
 
-        if($request->pid && $request->e_date && $request->e_lot_size && array_key_exists($request->e_lot_size, config('app.lot_size_value'))) {
-            $update = [
-                'date'     => $request->e_date,
-                'lot_size' => $request->e_lot_size,
-                'pip'      => $request->e_pip,
-                'profit'   => self::setProfitValue($request->e_lot_size, $request->e_pip)
+        if($request->pid && $request->e_date && $request->e_instrument) {
+            $data = [
+                'date'       => $request->e_date,
+                'lot_size'   => $request->e_lot_size,
+                'pip'        => $request->e_pip,
+                'instrument' => $request->e_instrument,
+                'profit'     => $request->e_profit
             ];
 
-            $performance = self::me()->performances()->find($request->pid)->update($update);
+            $performance = self::me()->performances()->find($request->pid)->update($data);
             if($performance) $alert = ['type' => 'success', 'message' => 'Your entry was successfully updated.'];
         }
         
@@ -100,11 +99,6 @@ class PerformanceController extends Controller
         
         return redirect()->back()->with(['alert' => $alert]);
 
-    } 
-
-    private function setProfitValue($lot_size, $pip)
-    {
-        return $pip * config('app.lot_size_value')[$lot_size];
     }
 
     private function calculateProfit($change, $value)

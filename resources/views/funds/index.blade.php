@@ -25,15 +25,13 @@
 
 			<div class="x_content">
 				<div class="row">
-					<div class="col-md-6">
-						<div class="btn-group btn-group-sm" data-toggle="modal" data-target="#new_fund">
-							<button type="button" class="btn btn-width btn-success" onclick="$('#new_fund_label').html('Deposit');$('[name=type]').val('Deposit')">
-								<i class="far fa-plus-square"></i> Deposit
-							</button>
-							<button type="button" class="btn btn-width btn-danger" onclick="$('#new_fund_label').html('Withdraw');$('[name=type]').val('Withdraw')">
-								<i class="far fa-minus-square"></i> Withdraw
-							</button>
-						</div>
+					<div class="col-md-6" data-toggle="modal" data-target="#new_fund">
+						<button type="button" class="btn btn-success btn-sm" onclick="$('#new_fund_label').html('Deposit');$('[name=type]').val('Deposit')">
+							<i class="far fa-plus-square"></i> Deposit
+						</button>
+						<button type="button" class="btn btn-danger btn-sm" onclick="$('#new_fund_label').html('Withdraw');$('[name=type]').val('Withdraw')">
+							<i class="far fa-minus-square"></i> Withdraw
+						</button>
 					</div>
 					<div class="col-md-6 text-right">
 						<div class="btn-group btn-group-sm filter">
@@ -65,14 +63,17 @@
 							@forelse ($funds as $key => $fund)
 								<tr>
 									<td>
-										<span class="label label-{{ ($fund->type=='Deposit')?'success':'danger' }} btn-xs">{{ $fund->type }}</span>
+										<span class="label label-{{ ($fund->type=='Deposit')?'success':'danger' }} btn-xs">
+											@if($fund->type == 'Deposit') <i class="fas fa-plus"></i> @else <i class="fas fa-minus"></i> @endif
+											{{ $fund->type }}
+										</span>
 									</td>
 									<td>{{ $fund->created_at }}</td>
 									<td>$ {{ _d($fund->amount) }}</td>
 									<td>
 										<form class="delete_fund" action="fund/{{ $fund->id }}" method="POST" data-type="delete">
 											@method('DELETE') @csrf	
-											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-trash-alt"></i> Delete</button>
+											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-times"></i> Delete</button>
 										</form>
 									</td>
 								</tr>

@@ -27,10 +27,10 @@
 		</form>
 	</div>
 	<div class="table-responsive">
-		<table class="table table-bordered table-striped table-hover">
+		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
-					@foreach(['Students', 'Year', 'Month', 'Week', 'Day', 'Date', 'Lot size', 'Pip', 'Profit', 'Equity'] as $head)
+					@foreach(['Students', 'Year', 'Month', 'Week', 'Day', 'Date', 'Instruments', 'Lot size', 'Pip', 'Profit', 'Equity'] as $head)
 						<th>{{ $head }}</th>
 					@endforeach
 				</tr>
@@ -44,13 +44,14 @@
 						<td>{{ $group->week }}</td>
 						<td>{{ $group->day }}</td>
 						<td>{{ _date($group->date) }}</td>
-						<td>{{ $group->lot_size }}</td>
+						<td>{{ $group->instrument }}</td>
+						<td>{{ _d($group->lot_size) }}</td>
 						<td>{{ _d($group->pip) }}</td>
 						<td>$ {{ _d($group->profit) }}</td>
 						<td>$ {{ _d($group->user->available_equity) }}</td>
 					</tr>
 				@empty
-				    <tr><td colspan="12" class="text-center">No records performance yet.</td></tr>
+				    <tr><td colspan="13" class="text-center">No records for performance yet.</td></tr>
 				@endforelse
 			</tbody>
 		</table>

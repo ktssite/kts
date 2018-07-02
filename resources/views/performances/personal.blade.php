@@ -12,14 +12,14 @@
 		</div>		
 	</div>
 	<div class="table-responsive">
-		<table class="table table-bordered table-striped table-center table-hover">
+		<table class="table table-center table-bordered table-hover">
 			<thead>
 				<tr>
 					<th>
 						<input type="checkbox" id="select_all" value="x">
 						<label class="nInput" for="select_all"></label>
 					</th>
-					@foreach(['Year', 'Month', 'Week', 'Day', 'Date', 'Lot size', 'Pip', 'Profit', 'Equity', '% Change (D)', '% Change (W)', '% Change (M)'] as $head)
+					@foreach(['Year', 'Month', 'Week', 'Day', 'Date', 'Instruments', 'Lot size', 'Pip', 'Profit', 'Equity', '% Change (D)', '% Change (W)', '% Change (M)'] as $head)
 						<th>{{ $head }}</th>
 					@endforeach
 				</tr>
@@ -35,8 +35,10 @@
 								   class="selectable"
 							 	   data-id="{{ $performance->id }}" 
 							 	   data-date="{{ $performance->date }}" 
-							 	   data-lot_size="{{ $performance->lot_size }}"
+							 	   data-instrument="{{ $performance->instrument }}"
+							 	   data-lot_size="{{ _d($performance->lot_size) }}"
 							 	   data-pip="{{ _d($performance->pip) }}"
+							 	   data-profit="{{ _d($performance->profit) }}"
 							><label class="nInput" for="select_{{ $key }}"></label>
 						</td>
 						<td>{{ $performance->year }}</td>
@@ -44,7 +46,8 @@
 						<td>{{ $performance->week }}</td>
 						<td>{{ $performance->day }}</td>
 						<td>{{ $performance->date }}</td>
-						<td>{{ $performance->lot_size }}</td>
+						<td>{{ $performance->instrument }}</td>
+						<td>{{ _d($performance->lot_size) }}</td>
 						<td>{{ _d($performance->pip) }}</td>
 						<td>$ {{ _d($performance->profit) }}</td>
 						<td>$ {{ $performance->equity }}</td>
@@ -63,7 +66,7 @@
 						 @endif
 					</tr>
 				@empty
-				    <tr><td colspan="12">No records performance yet.</td></tr>
+				    <tr><td colspan="13">No records for performance yet.</td></tr>
 				@endforelse
 			</tbody>
 		</table>

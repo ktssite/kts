@@ -14,30 +14,45 @@
           <div class="row">
             <div class="col-md-9">
               <div class="form-group">
-                <label class="col-md-3 mt7" for="date">Date</label>
+                <label class="col-md-3 mt7" for="e_date">Date</label>
                 <div class="col-md-9 mb5">
-                  <input type="text" name="e_date" class="form-control performance_date" id="date" placeholder="Enter date" required autocomplete="off">
+                  <input type="text" name="e_date" class="form-control performance_date" id="e_date" placeholder="Enter date" required autocomplete="off">
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="col-md-3 mt7" for="pip">Lot size</label>
+                <label class="col-md-3 mt7" for="e_instrument">Instruments</label>
                 <div class="col-md-9 mb5">
-                  <select class="form-control" name="e_lot_size" required>
+                  <select class="form-control" name="e_instrument" required id="e_instrument">
                     <option value="">Select</option>
-                    <option value="DAX">DAX ($ 2,000/Lot)</option>
-                    <option value="GER30">GER30 ($ 155/Lot)</option>
-                    <option value="Gold">Gold ($ 500/Lot)</option>
+                    <option value="Forex">Forex</option>
+                    <option value="Commodities">Commodities</option>
+                    <option value="Index">Index</option>
                   </select>
                 </div>
               </div>   
 
               <div class="form-group">
-                <label class="col-md-3 mt7" for="pip">Pip</label>
+                <label class="col-md-3 mt7" for="e_lot_size">Lot size</label>
                 <div class="col-md-9 mb5">
-                  <input type="number" name="e_pip" class="form-control" id="pip" step="0.01" placeholder="Enter pip" required>
+                  <input type="number" name="e_lot_size" class="form-control" id="e_lot_size" step="0.01" placeholder="Enter Lot size" required>
                 </div>
-              </div>                         
+              </div>       
+
+              <div class="form-group">
+                <label class="col-md-3 mt7" for="pip">Pips</label>
+                <div class="col-md-9 mb5">
+                  <input type="number" name="e_pip" class="form-control" id="pip" step="0.01" placeholder="Enter pips" required>
+                </div>
+              </div>           
+
+              <div class="form-group">
+                <label class="col-md-3 mt7" for="e_profit">Profit</label>
+                <div class="col-md-9 mb5">
+                  <input type="number" name="e_profit" class="form-control" id="e_profit" step="0.01" placeholder="Enter profit" required>
+                </div>
+              </div>  
+
             </div>
           </div>
         </div>

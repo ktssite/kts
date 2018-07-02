@@ -6,22 +6,11 @@
         <h4 class="modal-title" id="new_fund_label">New Fund</h4>
       </div>
       <form class="submit_fund" action="{{ route('fund.store') }}" method="POST">
+        <input type="hidden" name="type">
         @csrf
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-6">
-              <div class="card">
-                <div class="form-group">
-                  <label>Type</label>
-                  <select class="form-control" name="type" required readonly>
-                  	<option value="">Select</option>
-                  	<option value="Deposit">Deposit</option>
-                  	<option value="Withdraw">Withdraw</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="card">
                 <div class="form-group">
                 <label>Amount</label>

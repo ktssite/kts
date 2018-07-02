@@ -20,23 +20,38 @@
               </div>
 
               <div class="form-group">
-                <label class="col-md-3 mt7" for="pip">Lot size</label>
+                <label class="col-md-3 mt7" for="instrument">Instruments</label>
                 <div class="col-md-9 mb5">
-                  <select class="form-control" name="lot_size" required>
+                  <select class="form-control" name="instrument" required id="instrument">
                     <option value="">Select</option>
-                    <option value="DAX">DAX ($ 2,000/Lot)</option>
-                    <option value="GER30">GER30 ($ 155/Lot)</option>
-                    <option value="Gold">Gold ($ 500/Lot)</option>
+                    <option value="Forex">Forex</option>
+                    <option value="Commodities">Commodities</option>
+                    <option value="Index">Index</option>
                   </select>
                 </div>
               </div>   
 
               <div class="form-group">
-                <label class="col-md-3 mt7" for="pip">Pip</label>
+                <label class="col-md-3 mt7" for="lot_size">Lot size</label>
                 <div class="col-md-9 mb5">
-                  <input type="number" name="pip" class="form-control" id="pip" step="0.01" placeholder="Enter pip" required>
+                  <input type="number" name="lot_size" class="form-control" id="lot_size" step="0.01" placeholder="Enter Lot size" required>
                 </div>
-              </div>                         
+              </div>       
+
+              <div class="form-group">
+                <label class="col-md-3 mt7" for="pip">Pips</label>
+                <div class="col-md-9 mb5">
+                  <input type="number" name="pip" class="form-control" id="pip" step="0.01" placeholder="Enter pips" required>
+                </div>
+              </div>   
+
+              <div class="form-group">
+                <label class="col-md-3 mt7" for="profit">Profit</label>
+                <div class="col-md-9 mb5">
+                  <input type="number" name="profit" class="form-control" id="profit" step="0.01" placeholder="Enter profit" required>
+                </div>
+              </div>  
+
             </div>
           </div>
         </div>

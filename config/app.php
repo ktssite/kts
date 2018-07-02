@@ -225,10 +225,4 @@ return [
     ],
 
     'decimal_places' => 100,
-
-    'lot_size_value' => [
-        'DAX' => 2900,
-        'GER30' => 120,
-        'Gold' => 1000
-    ],
 ];

@@ -46,6 +46,8 @@ $(document).ready(function() {
 		var data = $('.selectable:checked').data();
 		$('[name=pid]').val(data.id)
 		$('[name=e_date]').val(data.date)
+		$('[name=e_instrument]').val(data.instrument)
+		$('[name=e_profit]').val(data.profit)
 		$('[name=e_lot_size]').val(data.lot_size)
 		$('[name=e_pip]').val(data.pip)
 	})
