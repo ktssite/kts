@@ -39,29 +39,13 @@ return [
             'prefix' => '',
         ],
 
-        'mysql' => [
-            'driver' => 'mysql',
-            'port' => env('DB_PORT', '3306'),
-            'host' => env('DB_HOST', 'db4free.net'),
-            'database' => env('DB_DATABASE', 'ktsdb1'),
-            'username' => env('DB_USERNAME', 'ktsuser1'),
-            'password' => env('DB_PASSWORD', 'kts_site_pass1'),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
-        // 'mysql1' => [
+        // 'mysql' => [
         //     'driver' => 'mysql',
         //     'port' => env('DB_PORT', '3306'),
-        //     'host' => env('DB_HOST', 'sql7.freemysqlhosting.net'),
-        //     'database' => env('DB_DATABASE', 'sql7245493'),
-        //     'username' => env('DB_USERNAME', 'sql7245493'),
-        //     'password' => env('DB_PASSWORD', 'tpRfaMr9za'),
-                        
+        //     'host' => env('DB_HOST', 'db4free.net'),
+        //     'database' => env('DB_DATABASE', 'ktsdb1'),
+        //     'username' => env('DB_USERNAME', 'ktsuser1'),
+        //     'password' => env('DB_PASSWORD', 'kts_site_pass1'),
         //     'unix_socket' => env('DB_SOCKET', ''),
         //     'charset' => 'utf8mb4',
         //     'collation' => 'utf8mb4_unicode_ci',
@@ -69,6 +53,22 @@ return [
         //     'strict' => true,
         //     'engine' => null,
         // ],
+
+        'mysql' => [
+            'driver' => 'mysql',
+            'port' => env('DB_PORT', '3306'),
+            'host' => env('DB_HOST', 'sql7.freemysqlhosting.net'),
+            'database' => env('DB_DATABASE', 'sql7245493'),
+            'username' => env('DB_USERNAME', 'sql7245493'),
+            'password' => env('DB_PASSWORD', 'tpRfaMr9za'),
+                        
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',
