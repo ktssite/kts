@@ -7,7 +7,7 @@
           <i class="far fa-edit"></i> Edit Performance
         </h4>
       </div>
-      <form class="submit_performance" action="{{ route('performance.update', 'e') }}" method="POST">
+      <form class="update_performance" action="{{ route('performance.update', 'e') }}" method="POST">
         @method('PUT') @csrf	
         <input type="hidden" name="pid">
         <div class="modal-body">

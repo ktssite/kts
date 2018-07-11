@@ -3,7 +3,6 @@
 @push('styles')
 <style type="text/css">
 .count { font-size: 2.2em !important; }
-ul.top_profiles { min-height: 63vh; overflow-y: auto; }
 </style>
 @endpush
 

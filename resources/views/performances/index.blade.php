@@ -7,7 +7,7 @@
 <link href="{{ asset('vendors/fSelect/fSelect.css') }}" rel="stylesheet">
 <style> 
 .card { height: 100px; } 
-span.p-change {width: 50px; display: inline-block;}
+.p-change {width: 70%; display: inline-block;}
 .mb5 { margin-bottom: 5px; }
 .mt7 { margin-top: 7px; }
 .fs-wrap { width: 100% }
@@ -16,6 +16,11 @@ span.p-change {width: 50px; display: inline-block;}
 .fs-label { height: 33px; }
 .fs-option-label { margin: 5px; }
 .fs-label-wrap .fs-label { padding-top: 11px; }
+.main { cursor: pointer; }
+.main + tr { display: none; }
+.fas { cursor: pointer; }
+.action { width: 35px; border-radius: 10px; }
+.v-middle { vertical-align: middle !important }
 </style>
 @endpush
 
@@ -60,5 +65,6 @@ span.p-change {width: 50px; display: inline-block;}
 <script src="{{ asset('vendors/jquery-validate/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('vendors/jquery-confirm/jquery-confirm.min.js') }}"></script>
 <script src="{{ asset('vendors/fSelect/fSelect.js') }}"></script>
+<script src="{{ asset('vendors/sweet-alert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('js/app/performance.js') }}"></script>
 @endpush

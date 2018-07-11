@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('.performance_date').datepicker().datepicker('setDate', 'today')
 	$('.filter_date').datepicker()
 	$(".submit_performance").validate()
+	$(".update_performance").validate()
 	$("#students").fSelect({ placeholder: 'Select one or more'})
 	$('[href="'+localStorage.getItem('prev_tab')+'"]').click()
 
@@ -10,45 +11,33 @@ $(document).ready(function() {
 		localStorage.setItem('prev_tab', location.hash)
 	})
 
-	$("#delete_performance").validate({
-	    submitHandler: function(form) {
-			$.confirm({
-			    title: 'Are you sure?',
-			    content: 'Please confirm.',
-			    buttons: {
-			        confirm: function () {
-			            form.submit()
-			        },
-			        cancel: function () {},
-			    }
-			});
-	    }			
-	})		
-
-	if(!$('.selectable').length) $('#select_all').parent().hide()
-	$('input[type=checkbox]').on('click', function() {
-		var selected          = $(this)
-		var total_checkbox    = $('.selectable').length
-		var selected_checkbox = $('.selectable:checked').length
-
-		if(selected.val() == 'x') {
-			$('.selectable').prop('checked', selected.is(':checked'))
-		} else {
-			$('#select_all').prop('checked', selected_checkbox == total_checkbox)
-		}
-
-		selected_checkbox = $('.selectable:checked').length
-		$('#edit').prop('disabled', selected_checkbox!=1)
-		$('#delete').prop('disabled', selected_checkbox==0)
+	$(".delete_performance").on('click', function(event) {
+		var self = $(this)
+		swal({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if(result.value) self.parent().submit()
+		})
 	})
 
-	$('#edit').click(function() {
-		var data = $('.selectable:checked').data();
-		$('[name=pid]').val(data.id)
-		$('[name=e_date]').val(data.date)
-		$('[name=e_instrument]').val(data.instrument)
-		$('[name=e_profit]').val(data.profit)
-		$('[name=e_lot_size]').val(data.lot_size)
-		$('[name=e_pip]').val(data.pip)
+	$('.edit_performance').on('click', function() {
+		var data   = $(this).data();
+		var columns = ['pid', 'e_date', 'e_instrument', 'e_lot_size', 'e_pip', 'e_profit']
+
+		columns.forEach(function(e) {
+			console.log(data[e])
+			$('[name="'+e+'"]').val(data[e])
+		})
+	})
+
+
+	$('.main').on('click', function() {
+		$(this).next('.collapsed_row').toggle()
 	})
 })

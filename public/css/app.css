@@ -3934,3 +3934,4 @@ div.show-image #img-delete {
 }
 
 .roles-nav li.active { border-right: 5px solid #1ABB9C; }
+.inline { display: inline !important; }

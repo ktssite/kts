@@ -18,11 +18,15 @@ class PerformanceController extends Controller
         $students          = User::role('Student')->get();
 
         //Initializations
-        $equity = $prev_equity_daily 
-                = self::me()->total_funds;
-        $w = $m = 1; 
+        $performances = self::mergeSameDayPerformance($performances);
+        $prev_month   = $prev_week = '';
+        $equity       = $prev_equity_daily 
+                      = self::me()->total_funds;
 
         foreach ($performances as $key => $value) {
+            if($prev_month != $value->month) { $prev_month = $value->month; $m = 1; }
+            if($prev_week  != $value->week)  { $prev_week  = $value->week;  $w = 1; }
+
             if($w == 1) {
                 $performances[$key]->w_col    = true;
                 $prev_equity_weekly           = $equity;
@@ -46,9 +50,11 @@ class PerformanceController extends Controller
             $performances[$key]->daily_change     = self::calculateProfit($value->profit,  $prev_equity_daily);
             $performances[$key_w]->weekly_change  = self::calculateProfit($weekly_profit,  $prev_equity_weekly);
             $performances[$key_m]->monthly_change = self::calculateProfit($monthly_profit, $prev_equity_monthly);
+            $performances[$key_w]->rs_w           = $w;
+            $performances[$key_m]->rs_m           = $m;            
 
-            $w = ($w == 5)?  1: $w + 1; 
-            $m = ($m == 30)? 1: $m + 1;
+            $w++; 
+            $m++;
             $prev_equity_daily = $equity;
         }
 
@@ -88,12 +94,12 @@ class PerformanceController extends Controller
         return redirect()->back()->with(['alert' => $alert]);
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $alert = self::errorMessage(); 
 
-        if($request->selected_items) {
-            $performance = self::me()->performances()->whereIn('id', (array)$request->selected_items)->delete();
+        if($id) {
+            $performance = self::me()->performances()->find($id)->delete();
             if($performance) $alert = ['type' => 'success', 'message' => 'Selected item was successfully deleted.'];
         }
         
@@ -114,6 +120,39 @@ class PerformanceController extends Controller
         $performances = Performance::where('date', $date);
 
         if(count($student_ids)) $performances = $performances->whereIn('user_id', $student_ids);
-        return $performances->get();
+        return self::mergeSameDayPerformance($performances->get());
+
+    }
+
+    private function mergeSameDayPerformance($performances)
+    {
+        $cp = []; $prev_date = $prev_uid = ''; $key = -1;
+
+        foreach ($performances as $p) {
+            if($prev_date != $p->date || $prev_uid != $p->user_id) { 
+                if($prev_date != $p->date )   $prev_date = $p->date; 
+                if($prev_uid  != $p->user_id) $prev_uid  = $p->user_id; 
+                $key++; 
+            } 
+
+            if(!isset($cp[$key])) $cp[$key] = new \stdClass();
+
+            foreach (['user_id', 'year', 'month', 'week', 'day', 'date'] as $column) {
+                $cp[$key]->$column = $p->$column;            
+            }
+
+            $cp[$key]->student = $p->user->name;
+            $cp[$key]->profit  = $p->user->getDailyProfit(dbDate($p->date));
+            $cp[$key]->equity  = $p->user->available_equity;
+            $cp[$key]->details[] = [
+                'id'         => $p->id, 
+                'instrument' => $p->instrument,
+                'lot_size'   => $p->lot_size,
+                'pip'        => $p->pip,
+                'profit'     => $p->profit
+            ];           
+        }
+
+        return $cp;
     }
 }
