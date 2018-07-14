@@ -31,7 +31,6 @@ $(document).ready(function() {
 		var columns = ['pid', 'e_date', 'e_instrument', 'e_lot_size', 'e_pip', 'e_profit']
 
 		columns.forEach(function(e) {
-			console.log(data[e])
 			$('[name="'+e+'"]').val(data[e])
 		})
 	})

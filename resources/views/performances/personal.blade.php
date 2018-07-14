@@ -29,7 +29,13 @@
 					<td>{{ $performance->week }}</td>
 					<td>{{ $performance->day }}</td>
 					<td>{{ _date($performance->date) }}</td>
-					<td>$ {{ _d($performance->profit) }}</td>
+					<td>
+						@if($performance->profit>=0)
+							<label class="label label-success">$ {{ _d($performance->profit) }}</label>
+						@else
+							<label class="label label-danger">$ {{ _d($performance->profit) }}</label>
+						@endif		
+					</td>
 					<td>$ {{ $performance->equity }}</td>
 					<td class="text-center v-middle">
 						<span class="label label-primary p-change">{{ $performance->daily_change }} %</span>

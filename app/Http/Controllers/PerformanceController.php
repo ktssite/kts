@@ -115,9 +115,14 @@ class PerformanceController extends Controller
 
     private function getGroupPerformance($request)
     {  
-        $date         = $request->has('d')? date_format(date_create($request->d), 'Y-m-d'): date("Y-m-d");
+        $from = ($request->from? dbDate($request->from): date("Y-m-d"));
+        $to   = ($request->to?   dbDate($request->to): '');
         $student_ids  = (array) $request->s;
-        $performances = Performance::where('date', $date);
+
+// dd($from, $to);
+        $performances = ($from && $to && $from <= $to)? 
+                        Performance::whereBetween('date', [$from, $to]): 
+                        Performance::where('date', $from);
 
         if(count($student_ids)) $performances = $performances->whereIn('user_id', $student_ids);
         return self::mergeSameDayPerformance($performances->get());

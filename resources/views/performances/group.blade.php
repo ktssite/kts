@@ -14,14 +14,18 @@
 				</div>
 			</div>	
 
-			<div class="form-group col-md-3">
-				<label class="col-md-3 mt7" for="filterd_date">Date</label>
-				<div class="col-md-9">
-                  	<input type="text" name="d" class="form-control filter_date" id="filterd_date" placeholder="Enter date" required autocomplete="off" value="{{ Request::get('d')? Request::get('d'): date('m/d/Y')}}">
+			<div class="form-group col-md-5">
+				<label class="col-md-2 mt7" for="filterd_date">Date</label>
+				<div class="col-md-5">
+                  	<input type="text" name="from" class="form-control filter_date" id="filterd_date" placeholder="From" required autocomplete="off" value="{{ Request::get('from')? Request::get('from'): date('m/d/Y')}}">
 				</div>
+				<div class="col-md-5">
+                  	<input type="text" name="to" class="form-control filter_date" id="filterd_date" placeholder="To" autocomplete="off" value="{{ Request::get('to')? Request::get('to'): '' }}">
+				</div>				
 			</div>	
 
-			<div class="form-group col-md-3">
+
+			<div class="form-group col-md-2">
 				<button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
 			</div>
 		</form>
@@ -49,7 +53,13 @@
 						<td>{{ $group->week }}</td>
 						<td>{{ $group->day }}</td>
 						<td>{{ _date($group->date) }}</td>
-						<td>$ {{ _d($group->profit) }}</td>
+						<td>
+							@if($group->profit>=0)
+								<label class="label label-success">$ $ {{ _d($group->profit) }}</label>
+							@else
+								<label class="label label-danger">$ $ {{ _d($group->profit) }}</label>
+							@endif							
+						</td>
 						<td>$ {{ _d($group->equity) }}</td>
 					</tr>
 					<tr class="collapsed_row">
