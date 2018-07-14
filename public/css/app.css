@@ -3911,8 +3911,8 @@ div.show-image .prof-btn {
 }
 div.show-image #img-update {
     top: 0;
-    left: 0;
-    width: 100%;
+    /*left: 0;*/
+    /*width: 100%;*/
 }
 div.show-image #img-delete {
     top:0;
