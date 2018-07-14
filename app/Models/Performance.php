@@ -31,17 +31,17 @@ class Performance extends Model
      */    
     public function setPipAttribute($value)
     {
-        $this->attributes['pip'] = $value * config('app.decimal_places');
+        $this->attributes['pip'] = strval($value * config('app.decimal_places'));
     }
 
     public function setLotSizeAttribute($value)
     {
-        $this->attributes['lot_size'] = $value * config('app.decimal_places');
+        $this->attributes['lot_size'] = strval($value * config('app.decimal_places'));
     }
 
     public function setProfitAttribute($value)
     {
-        $this->attributes['profit'] = $value * config('app.decimal_places');
+        $this->attributes['profit'] = strval($value * config('app.decimal_places'));
     }
 
     /**

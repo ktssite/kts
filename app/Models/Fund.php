@@ -11,6 +11,6 @@ class Fund extends Model
 
     public function setAmountAttribute($value)
     {
-    	$this->attributes['amount'] = $value * config('app.decimal_places');
+    	$this->attributes['amount'] = strval($value * config('app.decimal_places'));
     }     
 }
