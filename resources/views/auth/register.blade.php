@@ -9,6 +9,7 @@
 
     <title>{{ config('app.name', 'KTS') }} | Register</title>
 
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
      <!-- Bootstrap -->
     <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->

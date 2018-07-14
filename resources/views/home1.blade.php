@@ -9,6 +9,7 @@
 
     <title>Kraite Trading School</title>
 
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
 
