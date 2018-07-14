@@ -102,4 +102,9 @@ class User extends Authenticatable
     {
         return _date(self::performances()->latest()->value('date'));
     }
+
+    public function getDailyProfit($date)
+    {
+        return self::hasMany('KTS\Models\Performance')->where('date', $date)->sum('profit');
+    }
 }

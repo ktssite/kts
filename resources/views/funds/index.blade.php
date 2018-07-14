@@ -3,7 +3,6 @@
 @push('styles')
 <link href="{{ asset('css/styled-input.css') }}" rel="stylesheet">
 <link href="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-<link href="{{ asset('vendors/jquery-confirm/jquery-confirm.min.css') }}" rel="stylesheet">
 <style> 
 .btn-xs { margin-bottom: 0; }
 .btn-width { width: 90px; text-align: right}
@@ -25,15 +24,13 @@
 
 			<div class="x_content">
 				<div class="row">
-					<div class="col-md-6">
-						<div class="btn-group btn-group-sm" data-toggle="modal" data-target="#new_fund">
-							<button type="button" class="btn btn-width btn-success" onclick="$('#new_fund_label').html('Deposit');$('[name=type]').val('Deposit')">
-								<i class="far fa-plus-square"></i> Deposit
-							</button>
-							<button type="button" class="btn btn-width btn-danger" onclick="$('#new_fund_label').html('Withdraw');$('[name=type]').val('Withdraw')">
-								<i class="far fa-minus-square"></i> Withdraw
-							</button>
-						</div>
+					<div class="col-md-6" data-toggle="modal" data-target="#new_fund">
+						<button type="button" class="btn btn-success btn-sm" onclick="$('#new_fund_label').html('Deposit');$('[name=type]').val('Deposit')">
+							<i class="far fa-plus-square"></i> Deposit
+						</button>
+						<button type="button" class="btn btn-danger btn-sm" onclick="$('#new_fund_label').html('Withdraw');$('[name=type]').val('Withdraw')">
+							<i class="far fa-minus-square"></i> Withdraw
+						</button>
 					</div>
 					<div class="col-md-6 text-right">
 						<div class="btn-group btn-group-sm filter">
@@ -65,14 +62,17 @@
 							@forelse ($funds as $key => $fund)
 								<tr>
 									<td>
-										<span class="label label-{{ ($fund->type=='Deposit')?'success':'danger' }} btn-xs">{{ $fund->type }}</span>
+										<span class="label label-{{ ($fund->type=='Deposit')?'success':'danger' }} btn-xs">
+											@if($fund->type == 'Deposit') <i class="fas fa-plus"></i> @else <i class="fas fa-minus"></i> @endif
+											{{ $fund->type }}
+										</span>
 									</td>
 									<td>{{ $fund->created_at }}</td>
 									<td>$ {{ _d($fund->amount) }}</td>
 									<td>
 										<form class="delete_fund" action="fund/{{ $fund->id }}" method="POST" data-type="delete">
 											@method('DELETE') @csrf	
-											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-trash-alt"></i> Delete</button>
+											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-times"></i> Delete</button>
 										</form>
 									</td>
 								</tr>
@@ -90,22 +90,23 @@
 @endsection
 @push('scripts')
 <script src="{{ asset('vendors/jquery-validate/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('vendors/jquery-confirm/jquery-confirm.min.js') }}"></script>
+<script src="{{ asset('vendors/sweet-alert/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".delete_fund").each(function() {
 			$(this).validate({
 			    submitHandler: function(form) {
-					$.confirm({
-					    title: 'Are you sure?',
-					    content: 'Please confirm.',
-					    buttons: {
-					        confirm: function () {
-					            form.submit()
-					        },
-					        cancel: function () {},
-					    }
-					});
+					swal({
+						title: 'Are you sure?',
+						text: "You won't be able to revert this!",
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Yes, delete it!'
+					}).then((result) => {
+						if(result.value) form.submit()
+					})
 			    }			
 			})
 		})
