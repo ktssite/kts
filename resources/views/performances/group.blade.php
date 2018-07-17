@@ -55,9 +55,9 @@
 						<td>{{ _date($group->date) }}</td>
 						<td>
 							@if($group->profit>=0)
-								<label class="label label-success">$ $ {{ _d($group->profit) }}</label>
+								<label class="label label-success">$ {{ _d($group->profit) }}</label>
 							@else
-								<label class="label label-danger">$ $ {{ _d($group->profit) }}</label>
+								<label class="label label-danger">$ {{ _d($group->profit) }}</label>
 							@endif							
 						</td>
 						<td>$ {{ _d($group->equity) }}</td>
