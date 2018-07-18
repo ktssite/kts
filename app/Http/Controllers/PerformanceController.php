@@ -23,6 +23,7 @@ class PerformanceController extends Controller
         $equity       = $prev_equity_daily 
                       = self::me()->total_funds;
 
+        // dd($performances);
         foreach ($performances as $key => $value) {
             if($prev_month != $value->month) { $prev_month = $value->month; $m = 1; }
             if($prev_week  != $value->week)  { $prev_week  = $value->week;  $w = 1; }
@@ -53,8 +54,7 @@ class PerformanceController extends Controller
             $performances[$key_w]->rs_w           = $w;
             $performances[$key_m]->rs_m           = $m;            
 
-            $w++; 
-            $m++;
+            $w++; $m++;
             $prev_equity_daily = $equity;
         }
 
@@ -119,7 +119,6 @@ class PerformanceController extends Controller
         $to   = ($request->to?   dbDate($request->to): '');
         $student_ids  = (array) $request->s;
 
-// dd($from, $to);
         $performances = ($from && $to && $from <= $to)? 
                         Performance::whereBetween('date', [$from, $to]): 
                         Performance::where('date', $from);
@@ -147,7 +146,7 @@ class PerformanceController extends Controller
             }
 
             $cp[$key]->student = $p->user->name;
-            $cp[$key]->profit  = $p->user->getDailyProfit(dbDate($p->date));
+            $cp[$key]->profit  = $p->user->getProfit($p->date, 'day');
             $cp[$key]->equity  = $p->user->available_equity;
             $cp[$key]->details[] = [
                 'id'         => $p->id, 

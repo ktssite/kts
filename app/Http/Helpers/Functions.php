@@ -22,7 +22,11 @@ function pround($value) {
 }
 
 function dbDate($date) {
-	return date_create($date)->format('Y-m-d');
+	return (bool)strtotime($date)? date_create($date)->format('Y-m-d'): '';
+}
+
+function cDate($date) {
+	return (bool)strtotime($date)? date_create($date)->format('m/d/Y'): '';
 }
 
 function month($monthNum) {

@@ -9,6 +9,7 @@
 .btn-width span:first-child { float: left }
 .btn-group { margin-bottom: 5px; }
 .pr-15 { padding-right: 15px !important;}
+.delete_fund { display: inline !important; }
 </style>
 @endpush
 
@@ -67,12 +68,23 @@
 											{{ $fund->type }}
 										</span>
 									</td>
-									<td>{{ $fund->created_at }}</td>
+									<td>{{ _date($fund->date) }}</td>
 									<td>$ {{ _d($fund->amount) }}</td>
 									<td>
+										<button 
+											type="button" 
+											class="action btn btn-warning btn-xs edit_fund" 
+											data-toggle="modal" data-target="#edit_fund"
+											data-fid="{{ $fund->id }}"
+											data-e_type="{{ $fund->type }}"
+											data-e_date="{{ cDate($fund->date) }}"
+											data-e_amount="{{ _d($fund->amount) }}"
+										><i class="far fa-edit"></i>
+											Edit
+										</button>										
 										<form class="delete_fund" action="fund/{{ $fund->id }}" method="POST" data-type="delete">
 											@method('DELETE') @csrf	
-											<button type="submit" class="btn btn-warning btn-xs"><i class="fas fa-times"></i> Delete</button>
+											<button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-times"></i> Delete</button>
 										</form>
 									</td>
 								</tr>
@@ -87,12 +99,15 @@
 	</div>	
 </div>
 @include('funds.create')
+@include('funds.edit')
 @endsection
 @push('scripts')
+<script src="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('vendors/jquery-validate/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('vendors/sweet-alert/sweetalert.min.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
+		$('.date').datepicker().datepicker('setDate', 'today')
 		$(".delete_fund").each(function() {
 			$(this).validate({
 			    submitHandler: function(form) {
@@ -112,6 +127,16 @@
 		})
 
 		$('.submit_fund').validate()
+		$('.edit_form_fund').validate()
+		$('.edit_fund').on('click', function() {
+			var data   = $(this).data();
+			var columns = ['fid', 'e_date', 'e_amount', 'e_type']
+
+			console.log(data)
+			columns.forEach(function(e) {
+				$('[name="'+e+'"]').val(data[e])
+			})
+		})		
 	})
 
 

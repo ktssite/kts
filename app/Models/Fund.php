@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fund extends Model
 {
-    protected $fillable = ['user_id', 'type', 'amount'];
+    protected $fillable = ['user_id', 'type', 'amount', 'date'];
     protected $dates = ['created_at'];
 
     public function setAmountAttribute($value)

@@ -13,6 +13,10 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="form-group">
+                  <label>Actual date added</label>
+                  <input type="text" name="date" class="form-control date" placeholder="Enter date" required autocomplete="off">
+                </div>                 
+                <div class="form-group">
                 <label>Amount</label>
                 <input type="number" name="amount" class="form-control" placeholder="Enter amount" required>
                 </div>
