@@ -25,7 +25,7 @@
 						<label class="label label-default">({{ count($performance->details) }})</label> 
 					</td>
 					<td>{{ $performance->year }}</td>
-					<td>{{ $performance->month }}</td>
+					<td>{{ month($performance->month) }}</td>
 					<td>{{ $performance->week }}</td>
 					<td>{{ $performance->day }}</td>
 					<td>{{ _date($performance->date) }}</td>
@@ -36,7 +36,7 @@
 							<label class="label label-danger">$ {{ _d($performance->profit) }}</label>
 						@endif		
 					</td>
-					<td>$ {{ $performance->equity }}</td>
+					<td>$ {{ _d($performance->equity) }}</td>
 					<td class="text-center v-middle">
 						<span class="label label-primary p-change">{{ $performance->daily_change }} %</span>
 					</td>

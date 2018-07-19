@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'KTS') }} | Login</title>
+    <title>Kraite Trading School</title>
 
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
      <!-- Bootstrap -->

@@ -103,8 +103,71 @@ class User extends Authenticatable
         return _date(self::performances()->latest()->value('date'));
     }
 
-    public function getDailyProfit($date)
+    public function getProfit($date, $type = 'day', $until = false)
     {
-        return self::hasMany('KTS\Models\Performance')->where('date', $date)->sum('profit');
+        $performances = self::hasMany('KTS\Models\Performance');
+        $op           = ($until)? '<=': '=';
+
+        switch ($type) {
+            case 'day':
+                $profit = $performances->where('date', $op, dbDate($date))->sum('profit');
+                break;
+            case 'week':
+                // dd($date, $type, $until, $op);
+                $week   = intval($date);
+                $profit = $performances->whereRaw("week(date) $op $week")->sum('profit');
+
+                break;            
+            case 'month':
+                $month  = intval($date);
+                $profit = $performances->whereRaw("month(date) $op $month")->sum('profit');
+                break;                            
+            default:
+                $profit = 0;
+                break;
+        }
+
+        return $profit;
     }
+
+    public function getFund($date = '', $type = 'day', $until = true)
+    {
+        $deposit  = self::funds()->where('type', 'Deposit');
+        $withdraw = self::funds()->where('type', 'Withdraw');
+        $op       = ($until)? '<=': '=';    
+
+        if($until) {
+            switch ($type) {
+                case 'day':  
+                    $total = $deposit->where('date', $op, dbDate($date))->sum('amount') -
+                             $withdraw->where('date', $op, dbDate($date))->sum('amount');
+                    break;
+                case 'week':
+                    $week  = intval($date);
+                    $total = $deposit->whereRaw("week(date) $op $week")->sum('amount') -
+                             $withdraw->whereRaw("week(date) $op $week")->sum('amount');
+                    break;
+                case 'month':
+                    $month = intval($date);
+                    $total = $deposit->whereRaw("month(date) $op $month")->sum('amount') -
+                             $withdraw->whereRaw("month(date) $op $month")->sum('amount');
+                    break;
+                default:
+                    $total = 0;
+                    break;
+            }
+        } else $total = $deposit->sum('amount') - $withdraw->sum('amount');
+               
+        return $total;  
+    }
+
+    public function getEquity($date = '', $type = 'day', $until = false)
+    {
+        $fund   = self::getFund($date, $type, $until);
+        $profit = self::getProfit($date, $type, $until);
+
+        return $fund + $profit;
+    }
+
 }
+

@@ -25,8 +25,8 @@ class FundController extends Controller
     {
         $alert = self::errorMessage(); 
 
-        if($request->type && $request->amount > 0) {
-            $fund = self::me()->funds()->create(['type' => $request->type, 'amount' => $request->amount]);
+        if($request->type && $request->amount > 0 && $request->date) {
+            $fund = self::me()->funds()->create(['type' => $request->type, 'amount' => $request->amount, 'date' => $request->date]);
             if($fund) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
         } elseif($request->amount <= 0) {
             $alert = ['type' => 'warning', 'message' => 'Amount should be greater than 0.'];
@@ -37,7 +37,24 @@ class FundController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        $alert = self::errorMessage(); 
+
+        if($request->e_amount <= 0) {
+            $alert = ['type' => 'warning', 'message' => 'Amount should be greater than 0.'];
+        } else {
+            if($request->fid && $request->e_date) {
+                $data = [
+                    'date'   => dbDate($request->e_date),
+                    'amount' => $request->e_amount
+                ];
+
+                $fund = self::me()->funds()->find($request->fid)->update($data);
+                if($fund) $alert = ['type' => 'success', 'message' => 'Your entry was successfully updated.'];
+            }
+        }
+
+        
+        return redirect()->back()->with(['alert' => $alert]);
     }
 
     public function destroy($id)
@@ -50,15 +67,5 @@ class FundController extends Controller
         }
         
         return redirect()->back()->with(['alert' => $alert]);        
-    }
-
-    // public function me()
-    // {
-    //     return auth()->user();
-    // }    
-
-    // private function errorMessage()
-    // {
-    //     return ['type' => 'danger',  'message' => 'Something went wrong. Please contact admin.'];
-    // }        
+    }     
 }

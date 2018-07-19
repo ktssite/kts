@@ -7,12 +7,15 @@ use KTS\Traits\UserTrait;
 use KTS\Models\User;
 use KTS\Models\Performance;
 
+use DB;
+
 class PerformanceController extends Controller
 {
     use UserTrait;
 
     public function index(Request $request)
     {
+        // dd(monthNum('2018-07-02'));
         $performances      = self::me()->performances()->orderBy('date')->get();
         $group_performance = self::getGroupPerformance($request);
         $students          = User::role('Student')->get();
@@ -20,46 +23,34 @@ class PerformanceController extends Controller
         //Initializations
         $performances = self::mergeSameDayPerformance($performances);
         $prev_month   = $prev_week = '';
-        $equity       = $prev_equity_daily 
-                      = self::me()->total_funds;
+        $user         = self::me();
 
-        foreach ($performances as $key => $value) {
-            if($prev_month != $value->month) { $prev_month = $value->month; $m = 1; }
-            if($prev_week  != $value->week)  { $prev_week  = $value->week;  $w = 1; }
+        // dd($performances);
+        foreach ($performances as $key => $p) {
+            if($prev_month != $p->month) { $prev_month = $p->month; $m = 1; }
+            if($prev_week  != $p->week)  { $prev_week  = $p->week;  $w = 1; }
+            if($w == 1) { $p->w_col = true; $key_w = $key; } else $p->w_col = false;
+            if($m == 1) { $p->m_col = true; $key_m = $key; } else $p->m_col = false;
 
-            if($w == 1) {
-                $performances[$key]->w_col    = true;
-                $prev_equity_weekly           = $equity;
-                $key_w                        = $key;
-            } else $performances[$key]->w_col = false;
+            $performances[$key_w]->rs_w = $w;
+            $performances[$key_m]->rs_m = $m;            
 
-            if($m == 1) {
-                $performances[$key]->m_col    = true;
-                $prev_equity_monthly          = $equity;
-                $key_m                        = $key;
-            } else $performances[$key]->m_col = false;
+            $p->equity       = $user->getEquity($p->date, 'day', true);
+            $p->profit       = $user->getProfit($p->date, 'day', false);
+            $p->daily_change = self::getChange($user, $p->date, 'day');
 
-            //Calculate daily equity.
-            $equity += $value->profit;
-            
-            //Calculate weekly & monthly profits
-            $weekly_profit  = $equity - $prev_equity_weekly;
-            $monthly_profit = $equity - $prev_equity_monthly;
+            if(!isset($performances[$key_w]->weekly_change))
+                $performances[$key_w]->weekly_change  = self::getChange($user, $p->week, 'week');
 
-            $performances[$key]->equity           = _d($equity);
-            $performances[$key]->daily_change     = self::calculateProfit($value->profit,  $prev_equity_daily);
-            $performances[$key_w]->weekly_change  = self::calculateProfit($weekly_profit,  $prev_equity_weekly);
-            $performances[$key_m]->monthly_change = self::calculateProfit($monthly_profit, $prev_equity_monthly);
-            $performances[$key_w]->rs_w           = $w;
-            $performances[$key_m]->rs_m           = $m;            
+            if(!isset($performances[$key_m]->monthly_change))
+                $performances[$key_m]->monthly_change = self::getChange($user, $p->month, 'month');
 
-            $w++; 
-            $m++;
-            $prev_equity_daily = $equity;
+            $w++; $m++;
         }
 
         return view('performances.index', compact('performances', 'group_performance', 'students'));
     }
+
 
     public function store(Request $request)
     {
@@ -119,13 +110,22 @@ class PerformanceController extends Controller
         $to   = ($request->to?   dbDate($request->to): '');
         $student_ids  = (array) $request->s;
 
-// dd($from, $to);
         $performances = ($from && $to && $from <= $to)? 
                         Performance::whereBetween('date', [$from, $to]): 
                         Performance::where('date', $from);
 
         if(count($student_ids)) $performances = $performances->whereIn('user_id', $student_ids);
-        return self::mergeSameDayPerformance($performances->get());
+
+        $merged_performances = self::mergeSameDayPerformance($performances->orderBy('user_id')->get());
+
+
+        foreach ($merged_performances as $p) {
+            $user = User::find($p->user_id);
+            $p->equity = $user->getEquity($p->date, 'day', true);
+            $p->profit = $user->getProfit($p->date, 'day', false);
+        }
+
+        return $merged_performances;
 
     }
 
@@ -147,8 +147,6 @@ class PerformanceController extends Controller
             }
 
             $cp[$key]->student = $p->user->name;
-            $cp[$key]->profit  = $p->user->getDailyProfit(dbDate($p->date));
-            $cp[$key]->equity  = $p->user->available_equity;
             $cp[$key]->details[] = [
                 'id'         => $p->id, 
                 'instrument' => $p->instrument,
