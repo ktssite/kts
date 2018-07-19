@@ -44,7 +44,7 @@ class FundController extends Controller
         } else {
             if($request->fid && $request->e_date) {
                 $data = [
-                    'date'   => $request->e_date,
+                    'date'   => dbDate($request->e_date),
                     'amount' => $request->e_amount
                 ];
 

@@ -16,7 +16,7 @@ class AddDateToFundsTable extends Migration
     public function up()
     {
         Schema::table('funds', function (Blueprint $table) {
-            $table->string('date')->after('user_id');
+            $table->date('date')->after('user_id')->nullable();
         });
 
         DB::statement("update funds set date = date(created_at)");

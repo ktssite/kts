@@ -16,10 +16,10 @@ trait UserTrait
 
     private function getChange($user, $date, $type = 'day')
     {          
-    	$profit      = $user->getProfit($date, $type);
-    	$equity      = $user->getEquity($date, $type, true);
-    	$prev_equity = $equity - $profit;
-
-    	return ($equity)? pround(($profit / $equity) * 100): 0;
+    	$profit = $user->getProfit($date, $type, false);
+    	$equity = $user->getEquity($date, $type, true);
+        $prev_e = $equity - $profit;
+        
+    	return ($prev_e)? pround(($profit / $prev_e) * 100): 0;
     }
 }

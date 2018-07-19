@@ -37,7 +37,6 @@ class DashboardController extends Controller
     {
         foreach (['day', 'week', 'month'] as $type) {
             self::$details['data'][$type.'_rankings'] = self::getUsers()->each(function($user) use ($type) {
-
                 $col = "{$type}_change";
                 $user->$col  = self::getChange($user, self::$details['data'][$type], $type);
                 $user->$type = ($type == 'day')? _date(self::$details['data'][$type]): self::$details['data'][$type];

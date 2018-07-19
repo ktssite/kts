@@ -54,12 +54,12 @@ class Performance extends Model
 
 	public function getMonthAttribute()
 	{
-	    return date('F', strtotime($this->date));
+	    return monthNum($this->date);
 	} 
 
 	public function getWeekAttribute()
 	{
-	    return date('W', strtotime($this->date));
+	    return weekNum($this->date);
 	}  	 
 
 	public function getDayAttribute()

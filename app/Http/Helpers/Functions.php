@@ -8,6 +8,7 @@ use Money\Parser\IntlMoneyParser;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Parser\DecimalMoneyParser;
+use Illuminate\Support\Facades\DB;
 
 
 function _d($value) {
@@ -22,17 +23,30 @@ function pround($value) {
 }
 
 function dbDate($date) {
+	//For db value
 	return (bool)strtotime($date)? date_create($date)->format('Y-m-d'): '';
 }
 
 function cDate($date) {
+	//For calendar
 	return (bool)strtotime($date)? date_create($date)->format('m/d/Y'): '';
 }
 
 function month($monthNum) {
+	//Month name
 	return date('F', mktime(0, 0, 0, $monthNum, 10));
 }
 
 function _date($date) {
 	return date_format(date_create($date), 'F j, Y');
+}
+
+function monthNum($date) {	
+	$date = dbDate($date);
+	return (bool)strtotime($date)? DB::select("select month('$date') as m")[0]->m: '';	
+}
+
+function weekNum($date) {
+	$date = dbDate($date);
+	return (bool)strtotime($date)? DB::select("select week('$date') as w")[0]->w: '';
 }

@@ -106,13 +106,14 @@ class User extends Authenticatable
     public function getProfit($date, $type = 'day', $until = false)
     {
         $performances = self::hasMany('KTS\Models\Performance');
-        $op           = ($until)? '<': '=';
+        $op           = ($until)? '<=': '=';
 
         switch ($type) {
             case 'day':
                 $profit = $performances->where('date', $op, dbDate($date))->sum('profit');
                 break;
             case 'week':
+                // dd($date, $type, $until, $op);
                 $week   = intval($date);
                 $profit = $performances->whereRaw("week(date) $op $week")->sum('profit');
 
@@ -133,23 +134,23 @@ class User extends Authenticatable
     {
         $deposit  = self::funds()->where('type', 'Deposit');
         $withdraw = self::funds()->where('type', 'Withdraw');
-        $op       = ($until)? '<': '=';
+        $op       = ($until)? '<=': '=';    
 
         if($until) {
             switch ($type) {
-                case 'day':
-                    $total = $deposit->whereDate('created_at', $op, dbDate($date))->sum('amount') -
-                             $withdraw->whereDate('created_at', $op, dbDate($date))->sum('amount');
+                case 'day':  
+                    $total = $deposit->where('date', $op, dbDate($date))->sum('amount') -
+                             $withdraw->where('date', $op, dbDate($date))->sum('amount');
                     break;
                 case 'week':
                     $week  = intval($date);
-                    $total = $deposit->whereRaw("week(created_at) $op $week")->sum('amount') -
-                             $withdraw->whereRaw("week(created_at) $op $week")->sum('amount');
+                    $total = $deposit->whereRaw("week(date) $op $week")->sum('amount') -
+                             $withdraw->whereRaw("week(date) $op $week")->sum('amount');
                     break;
                 case 'month':
                     $month = intval($date);
-                    $total = $deposit->whereRaw("month(created_at) $op $month")->sum('amount') -
-                             $withdraw->whereRaw("month(created_at) $op $month")->sum('amount');
+                    $total = $deposit->whereRaw("month(date) $op $month")->sum('amount') -
+                             $withdraw->whereRaw("month(date) $op $month")->sum('amount');
                     break;
                 default:
                     $total = 0;
@@ -162,10 +163,9 @@ class User extends Authenticatable
 
     public function getEquity($date = '', $type = 'day', $until = false)
     {
-
         $fund   = self::getFund($date, $type, $until);
         $profit = self::getProfit($date, $type, $until);
-        
+
         return $fund + $profit;
     }
 
