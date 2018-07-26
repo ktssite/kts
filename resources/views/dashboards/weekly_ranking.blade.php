@@ -18,7 +18,17 @@
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
 					<a class="title" href="#">{{ $weekly->name }}</a>
-					<p><strong class="label label-warning">{{ $weekly->week_change }} %</strong></p>
+					<p>
+						@if($weekly->week_change > 0)
+							<i class="fas fa-arrow-up text-success"></i>						
+							<strong class="text-success">{{ $weekly->week_change }} %</strong>
+						@elseif($weekly->week_change < 0)
+							<i class="fas fa-arrow-down text-danger"></i>						
+							<strong class="text-danger">{{ abs($weekly->week_change) }} %</strong>						
+						@else
+							<strong>{{ $weekly->week_change }} %</strong>
+						@endif						
+					</p>
 					<p> <small>Week {{ $weekly->week }}</small></p>
 				</div>
 			</li>

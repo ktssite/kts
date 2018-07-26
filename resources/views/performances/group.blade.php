@@ -55,9 +55,9 @@
 						<td>{{ _date($group->date) }}</td>
 						<td>
 							@if($group->profit>=0)
-								<label class="label label-success">$ {{ _d($group->profit) }}</label>
+								<strong class="text-success">$ {{ _d($group->profit) }}</strong>
 							@else
-								<label class="label label-danger">$ {{ _d($group->profit) }}</label>
+								<strong class="text-danger">$ {{ _d($group->profit) }}</strong>
 							@endif							
 						</td>
 						<td>$ {{ _d($group->equity) }}</td>
@@ -81,11 +81,11 @@
 											<div class="col-md-3 col-sm-3 col-xs-3">{{ _d($detail['lot_size']) }}</div>
 											<div class="col-md-3 col-sm-3 col-xs-3">{{ _d($detail['pip']) }}</div>
 											<div class="col-md-3 col-sm-3 col-xs-3">
-												@if($detail['profit']>=0)
-													<label class="label label-success">$ {{ _d($detail['profit']) }}</label>
-												@else
-													<label class="label label-danger">$ {{ $detail['profit'] }}</label>
-												@endif
+											@if($detail['profit']>=0)
+												<strong class="text-success">$ {{ _d($detail['profit']) }}</strong>
+											@else
+												<strong class="text-danger">$ {{ _d($detail['profit']) }}</strong>
+											@endif												
 											</div>
 										</div>
 									</li>
