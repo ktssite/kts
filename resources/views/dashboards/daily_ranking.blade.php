@@ -17,7 +17,17 @@
 				<a class="pull-left border-aero profile_thumb"><i class="fa fa-user aero"></i></a>
 				<div class="media-body">
 					<a class="title" href="#">{{ $daily->name }}</a>
-					<p><strong class="label label-primary">{{ $daily->day_change }} %</strong></p>
+					<p>
+						@if($daily->day_change > 0)
+							<i class="fas fa-arrow-up text-success"></i>						
+							<strong class="text-success">{{ $daily->day_change }} %</strong>
+						@elseif($daily->day_change < 0)
+							<i class="fas fa-arrow-down text-danger"></i>						
+							<strong class="text-danger">{{ abs($daily->day_change) }} %</strong>						
+						@else
+							<strong>{{ $daily->day_change }} %</strong>
+						@endif
+					</p>
 					<p> <small>{{ $daily->day }}</small></p>
 				</div>
 			</li>

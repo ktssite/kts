@@ -31,23 +31,47 @@
 					<td>{{ _date($performance->date) }}</td>
 					<td>
 						@if($performance->profit>=0)
-							<label class="label label-success">$ {{ _d($performance->profit) }}</label>
+							<strong class="text text-success">$ {{ _d($performance->profit) }}</strong>
 						@else
-							<label class="label label-danger">$ {{ _d($performance->profit) }}</label>
+							<strong class="text text-danger">$ {{ _d($performance->profit) }}</strong>
 						@endif		
 					</td>
 					<td>$ {{ _d($performance->equity) }}</td>
 					<td class="text-center v-middle">
-						<span class="label label-primary p-change">{{ $performance->daily_change }} %</span>
+						@if($performance->daily_change > 0)
+							<i class="fas fa-arrow-up text-success"></i>
+							<strong class="text-success">{{ $performance->daily_change }} %</strong>
+						@elseif($performance->daily_change < 0)
+							<i class="fas fa-arrow-down text-danger"></i>
+							<strong class="text-danger">{{ abs($performance->daily_change) }} %</strong>
+						@else
+							<strong>{{ $performance->daily_change }} %</strong>
+						@endif
 					</td>
 					@if($performance->w_col) 
 						<td rowspan="{{ $performance->rs_w }}" class="text-center v-middle">
-							<span class="label label-warning p-change">{{ $performance->weekly_change }} %</span>
+						@if($performance->weekly_change > 0)
+							<i class="fas fa-arrow-up text-success"></i>
+							<strong class="text-success">{{ $performance->weekly_change }} %</strong>
+						@elseif($performance->weekly_change < 0)
+							<i class="fas fa-arrow-down text-danger"></i>
+							<strong class="text-danger">{{ abs($performance->weekly_change) }} %</strong>
+						@else
+							<strong>{{ abs($performance->weekly_change) }} %</strong>							
+						@endif
 						</td> 
 					@endif
 					@if($performance->m_col) 
 						<td rowspan="{{ $performance->rs_m }}" class="text-center v-middle">
-							<span class="label label-success p-change">{{ $performance->monthly_change }} %</span>
+						@if($performance->monthly_change > 0)
+							<i class="fas fa-arrow-up text-success"></i>
+							<strong class="text-success">{{ $performance->monthly_change }} %</strong>
+						@elseif($performance->monthly_change < 0)
+							<i class="fas fa-arrow-down text-danger"></i>
+							<strong class="text-danger">{{ abs($performance->monthly_change) }} %</strong>
+						@else
+							<strong>{{ abs($performance->monthly_change) }} %</strong>														
+						@endif
 						</td>
 					 @endif
 				</tr>
@@ -90,9 +114,9 @@
 										<div class="col-md-2 col-sm-2 col-xs-2">{{ _d($detail['pip']) }}</div>
 										<div class="col-md-4 col-sm-4 col-xs-4">
 											@if($detail['profit']>=0)
-												<label class="label label-success">$ {{ _d($detail['profit']) }}</label>
+												<strong class="text-success">$ {{ _d($detail['profit']) }}</strong>
 											@else
-												<label class="label label-danger">$ {{ _d($detail['profit']) }}</label>
+												<strong class="text-danger">$ {{ _d($detail['profit']) }}</strong>
 											@endif
 										</div>
 									</div>
