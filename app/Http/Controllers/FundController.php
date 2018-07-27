@@ -26,7 +26,7 @@ class FundController extends Controller
         $alert = self::errorMessage(); 
 
         if($request->type && $request->amount > 0 && $request->date) {
-            $fund = self::me()->funds()->create(['type' => $request->type, 'amount' => $request->amount, 'date' => $request->date]);
+            $fund = self::me()->funds()->create(['type' => $request->type, 'amount' => $request->amount, 'date' => dbDate($request->date)]);
             if($fund) $alert = ['type' => 'success', 'message' => 'Your entry was successfully added.'];
         } elseif($request->amount <= 0) {
             $alert = ['type' => 'warning', 'message' => 'Amount should be greater than 0.'];
