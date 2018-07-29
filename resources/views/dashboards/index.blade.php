@@ -3,7 +3,7 @@
 @push('styles')
 <link href="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 <style type="text/css">
-.count { font-size: 2em !important; }
+.count { font-size: 2.2rem !important; }
 ul.top_profiles { min-height:330px; height: auto !important; }
 .admin, .student { padding: 5px; border-left: 2px solid #ADB2B5; margin-bottom: 2px; }
 .student {  background: #1ABB9C; color: #fff; }
@@ -14,11 +14,21 @@ ul.top_profiles { min-height:330px; height: auto !important; }
 .count { margin-top: -5px !important; }
 .tile_count { margin: 5px -10px !important; }
 .animated { margin-bottom: 5px; }
-.search { position: relative; bottom: 34px; }
+.search { display: flex; }
 .btn_submit { float: right !important; }
 .week { width: 60px; }
-.month { height: 30px; }
+.month { height: 30px; width: 90px; }
 .date { width: 100px; }
+
+@media screen and (max-width: 980px) {
+  .count { font-size: 1.8rem !important; }
+}
+@media screen and (min-width: 992px) {
+  .count { font-size: 1.6rem !important; }
+}
+@media screen and (min-width: 1200px) {
+  .count { font-size: 2.2rem !important; }
+}
 </style>
 @endpush
 
