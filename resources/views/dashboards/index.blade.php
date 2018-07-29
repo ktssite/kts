@@ -3,8 +3,8 @@
 @push('styles')
 <link href="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 <style type="text/css">
-.count { font-size: 2.2em !important; }
-ul.top_profiles { min-height:330px; width:100%; }
+.count { font-size: 2em !important; }
+ul.top_profiles { min-height:330px; height: auto !important; }
 .admin, .student { padding: 5px; border-left: 2px solid #ADB2B5; margin-bottom: 2px; }
 .student {  background: #1ABB9C; color: #fff; }
 .admin {  background: #eee; color: #5A738E; }
