@@ -21,7 +21,7 @@
     <link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app1.css') }}" rel="stylesheet">
   </head>
 
   <body class="login">
